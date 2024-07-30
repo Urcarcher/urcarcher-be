@@ -37,9 +37,9 @@ dependencies {
 	
 	implementation 'org.mariadb.jdbc:mariadb-java-client'
 	
-	implementation 'net.coobird:thumbnailator:0.4.13'*/
+	implementation 'net.coobird:thumbnailator:0.4.13'
 	
-	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.boot:spring-boot-starter-security'*/
 	
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	
