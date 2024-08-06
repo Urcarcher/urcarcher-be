@@ -1,0 +1,33 @@
+spring:
+  application:
+    name: urcarcher-be
+
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    generate-ddl: false
+    show-sql: true
+    database-platform: org.hibernate.dialect.MariaDBDialect
+  
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://localhost:3306/urcarcher
+    username: root
+    password: 1234
+
+  servlet:
+    multipart:
+      enabled: true
+      location: C:\\upload
+      max-request-size: 30MB
+      max-file-size: 10MB
+    
+server:
+  servlet:
+    encoding:
+      charset: utf-8
+      enabled: true
+      force: true
+  port: 8081

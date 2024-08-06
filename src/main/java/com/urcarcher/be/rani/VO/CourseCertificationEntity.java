@@ -1,0 +1,47 @@
+package com.urcarcher.be.rani.VO;
+
+import java.math.BigDecimal;
+import java.sql.Date;
+import java.sql.Timestamp;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter @Setter
+@ToString
+@Entity
+@Table(name="course_certification")
+public class CourseCertificationEntity {
+	
+	@Id
+	@Column (name="certification_id")
+	private String certificationId;
+	
+	@Column (name="member_id")
+	private String memberId;
+	
+	@Column (name="place_id")
+	private String placeId;
+	
+	@Column (name="course_id")
+	private String courseId;
+	
+	@CreationTimestamp
+	@Column (name="certification_date")
+	private Date certificationDate;	
+	
+
+}
