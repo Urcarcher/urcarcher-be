@@ -9,5 +9,4 @@ public class UrcarcherBeApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(UrcarcherBeApplication.class, args);
 	}
-
 }
