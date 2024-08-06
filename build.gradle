@@ -9,7 +9,7 @@ version = '0.0.1-SNAPSHOT'
 
 java {
 	toolchain {
-		languageVersion = JavaLanguageVersion.of(17)
+		languageVersion = JavaLanguageVersion.of(21)
 	}
 }
 
@@ -24,25 +24,11 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter'
 	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
-	
-	/*implementation 'com.querydsl:querydsl-apt:5.0.0:jakarta'
-	implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
-	
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	
-	implementation 'org.mariadb.jdbc:mariadb-java-client'
-	
-	implementation 'net.coobird:thumbnailator:0.4.13'
-	
-	implementation 'org.springframework.boot:spring-boot-starter-security'*/
-	
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
