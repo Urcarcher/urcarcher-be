@@ -1,7 +1,8 @@
 package com.urcarcher.be.kimyuri;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,15 +22,21 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "payment")
 public class PaymentEntity {
-	@Id		
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long paymentId;
-	
-	private Double pay;
-	private Date paymentDate;
-	
+	Long paymentId;
+
+	@Column(nullable = false)
+	Double paymentPrice;
+	@Column(nullable = false)
+	LocalDateTime paymentDate;
+
+//	@ManyToOne
+//	@JoinColumn(name = "store_id", nullable = false)
+//	StoreEntity store;
+
 	@ManyToOne
-	@JoinColumn(name="cardId", nullable=false)
-	private CardEntity card;
-	
+	@JoinColumn(name = "card_id", nullable = false)
+	CardEntity card;
+
 }

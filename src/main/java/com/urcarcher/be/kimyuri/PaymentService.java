@@ -3,8 +3,37 @@ package com.urcarcher.be.kimyuri;
 import java.util.List;
 
 public interface PaymentService {
-	PaymentEntity save(PaymentEntity payment);
-	List<PaymentEntity> findAll();
-	PaymentEntity findById(Long id);
-	void deleteById(Long id);
+	
+	void insert(PaymentDTO dto);
+	
+	List<PaymentDTO> readAll();
+	
+	PaymentDTO readById(Long paymentId);
+	
+	void delete(Long paymentId);
+	
+	// Entity -> DTO
+	default PaymentDTO entityToDTO(PaymentEntity entity) {
+		PaymentDTO dto = PaymentDTO.builder()
+				.paymentId(entity.getPaymentId())
+				.paymentPrice(entity.getPaymentPrice())
+				.paymentDate(entity.getPaymentDate())
+				.build();
+		return dto;
+	}
+	
+	
+	// DTO -> Entity
+	default PaymentEntity dtoToEntity(PaymentDTO dto) {
+		
+		PaymentEntity entity = PaymentEntity.builder()
+				.paymentId(dto.getPaymentId())
+				.paymentPrice(dto.getPaymentPrice())
+				.paymentDate(dto.getPaymentDate())
+				.build();
+		return entity;
+	}
+	
+	
+	
 }
