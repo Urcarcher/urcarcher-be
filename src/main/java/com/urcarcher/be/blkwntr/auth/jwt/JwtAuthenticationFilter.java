@@ -1,4 +1,4 @@
-package com.urcarcher.be.blkwntr.security.jwt;
+package com.urcarcher.be.blkwntr.auth.jwt;
 
 import java.io.IOException;
 

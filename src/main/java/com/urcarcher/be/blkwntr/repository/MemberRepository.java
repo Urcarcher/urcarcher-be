@@ -2,8 +2,8 @@ package com.urcarcher.be.blkwntr.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.urcarcher.be.blkwntr.entity.MemberEntity;
+import com.urcarcher.be.blkwntr.entity.Member;
 
-public interface MemberRepository extends JpaRepository<MemberEntity, String> {
+public interface MemberRepository extends JpaRepository<Member, String> {
 
 }
