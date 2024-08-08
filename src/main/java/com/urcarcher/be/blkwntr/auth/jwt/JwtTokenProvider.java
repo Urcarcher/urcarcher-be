@@ -1,4 +1,4 @@
-package com.urcarcher.be.blkwntr.security.jwt;
+package com.urcarcher.be.blkwntr.auth.jwt;
 
 import java.security.Key;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.urcarcher.be.blkwntr.security.dto.TokenDTO;
+import com.urcarcher.be.blkwntr.auth.dto.TokenDTO;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
