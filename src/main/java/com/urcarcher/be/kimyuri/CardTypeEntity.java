@@ -1,14 +1,10 @@
 package com.urcarcher.be.kimyuri;
 
-import java.time.LocalDate;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,31 +16,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "card")
-public class CardEntity {
+@Table(name = "card_type")
+public class CardTypeEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long cardId;
-
+	Long cardTypeId;
+	
 	@Column(length = 100, nullable = false)
-	String cardNumber;
+	String cardName; // 카드이름
 	@Column(length = 100, nullable = false)
-	String cvvCode;
+	String cardUsage; // 카드사용목적
 	@Column
-	Double cardBalance;
+	Double cardLimit; //카드한도
+	@Column
+	Double annualFee; // 연회비
 	@Column(length = 100, nullable = false)
-	String cardStatus;
-	@Column(nullable = false)
-	LocalDate issueDate;
-	@Column(nullable = false)
-	LocalDate expirationDate;
-
-//	@ManyToOne
-//	@JoinColumn(name = "member_id", nullable = false)
-//	MemberEntity member;
-
-	@ManyToOne
-	@JoinColumn(name = "card_type_id", nullable = false)
-	CardTypeEntity cardType;
-
+	String cardImg;
 }
