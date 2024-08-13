@@ -3,15 +3,16 @@ package com.urcarcher.be.blkwntr.auth.service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.urcarcher.be.blkwntr.auth.AuthorizedUser;
 import com.urcarcher.be.blkwntr.auth.MemberRole;
 import com.urcarcher.be.blkwntr.auth.dto.TokenDTO;
+import com.urcarcher.be.blkwntr.auth.jwt.JwtCookieProvider;
 import com.urcarcher.be.blkwntr.auth.jwt.JwtTokenProvider;
 import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.blkwntr.repository.MemberRepository;
@@ -22,7 +23,6 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class VanillaAuthorizingService implements UserDetailsService {
-	private static final String ROLE_PREFIX = "ROLE_"; 
 
 	private final AuthenticationManagerBuilder authenticationManagerBuilder;
 	private final JwtTokenProvider jwtTokenProvider;
@@ -31,17 +31,15 @@ public class VanillaAuthorizingService implements UserDetailsService {
 	private final PasswordEncoder passwordEncoder;
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public AuthorizedUser loadUserByUsername(String username) throws UsernameNotFoundException {
 		return memberRepository.findById(username)
 				.map(this::createUserDetails)
 				.orElseThrow(()-> new UsernameNotFoundException("존재하지 않는 회원입니다."));
 	}	
 	
-	private UserDetails createUserDetails(Member member) {
-		return User.builder()
-				.username(member.getUsername())
-				.password(member.getPassword())
-				.roles(member.getRole().name())
+	private AuthorizedUser createUserDetails(Member member) {
+		return AuthorizedUser.builder()
+				.member(member)
 				.build();
 	}
 	

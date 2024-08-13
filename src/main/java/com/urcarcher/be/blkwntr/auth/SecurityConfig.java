@@ -9,7 +9,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.urcarcher.be.blkwntr.auth.jwt.JwtAuthenticationFilter;
+import com.urcarcher.be.blkwntr.auth.jwt.JwtCookieProvider;
 import com.urcarcher.be.blkwntr.auth.jwt.JwtTokenProvider;
+import com.urcarcher.be.blkwntr.auth.service.UrcarcherOAuth2Service;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,6 +21,10 @@ import lombok.RequiredArgsConstructor;
 public class SecurityConfig {
 	
 	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtCookieProvider jwtCookieProvider;
+	
+	private final UrcarcherOAuth2Service urcarcherOAuth2Service;
+	private final OAuth2SuccessHandler oAuth2SuccessHandler;
 	
 	private static final String[] WHITE_LIST = {"/**"};
 	
@@ -46,7 +52,12 @@ public class SecurityConfig {
 						.requestMatchers(WHITE_LIST).permitAll()
 						.anyRequest().authenticated();
 				})
-				.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
+				.oauth2Login(oauth2Config -> {
+					oauth2Config
+						.userInfoEndpoint(load->load.userService(urcarcherOAuth2Service))
+						.successHandler(oAuth2SuccessHandler);
+				})
+				.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider, jwtCookieProvider), UsernamePasswordAuthenticationFilter.class);
 		
 		return http.build();
 	}
