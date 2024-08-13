@@ -4,13 +4,15 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.querydsl.core.support.QueryMixin.Role;
+import com.urcarcher.be.blkwntr.auth.MemberProvider;
 import com.urcarcher.be.blkwntr.auth.MemberRole;
 
 import jakarta.persistence.Entity;
@@ -18,6 +20,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,10 +32,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member implements UserDetails {
-	private static final long serialVersionUID = 1L;
-	private static final String ROLE_PREFIX = "ROLE_"; 
-	
+public class Member {
+
 	@Id
 	private String memberId;
 	private String password;
@@ -50,6 +51,7 @@ public class Member implements UserDetails {
 	private String matchingConsent;
 	
 	private Integer point;
+	private String picture;
 	
 	@CreationTimestamp
 	private Timestamp registrationDate;
@@ -57,40 +59,7 @@ public class Member implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private MemberRole role;
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> simpleGrantedAuthority = new ArrayList<>();
-		simpleGrantedAuthority.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.name()));
-		return simpleGrantedAuthority;
-	}
-
-	@Override
-	public String getUsername() {
-		return memberId;
-	}
+	@Enumerated(EnumType.STRING)
+	private MemberProvider provider;
 	
-	@Override
-    public String getPassword() {
-        return password;
-    }
- 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
- 
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
- 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
- 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

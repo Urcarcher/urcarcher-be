@@ -31,6 +31,10 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class JwtTokenProvider {
 	private final Key key;
+//	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30L;
+//	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 30L;
+	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 5L;
+	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 10L;
 	
 	public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
@@ -44,7 +48,7 @@ public class JwtTokenProvider {
 		
 		long now = (new Date()).getTime();
 		
-		Date accessTokenExpiresIn = new Date(now + 1800000);
+		Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
 		String accessToken = Jwts.builder()
 				.setSubject(authentication.getName())
 				.claim("auth", authorities)
@@ -53,7 +57,7 @@ public class JwtTokenProvider {
 				.compact();
 		
 		String refreshToken = Jwts.builder()
-				.setExpiration(new Date(now + 2592000000L))
+				.setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
 				.signWith(key, SignatureAlgorithm.HS256)
 				.compact();
 		
@@ -62,6 +66,31 @@ public class JwtTokenProvider {
 				.accessToken(accessToken)
 				.refreshToken(refreshToken)
 				.build();
+	}
+	
+	public String generateAccessToken(Authentication authentication) {
+		String authorities = authentication.getAuthorities().stream()
+				.map(GrantedAuthority::getAuthority)
+				.collect(Collectors.joining(","));
+		
+		long now = (new Date()).getTime();
+		
+		Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+		return Jwts.builder()
+				.setSubject(authentication.getName())
+				.claim("auth", authorities)
+				.setExpiration(accessTokenExpiresIn)
+				.signWith(key, SignatureAlgorithm.HS256)
+				.compact();
+	}
+	
+	public String generateRefreshToken() {
+		long now = (new Date()).getTime();
+		
+		return Jwts.builder()
+				.setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+				.signWith(key, SignatureAlgorithm.HS256)
+				.compact();
 	}
 	
 	public Authentication getAuthentication(String accessToken) {
