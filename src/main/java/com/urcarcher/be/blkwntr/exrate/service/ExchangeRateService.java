@@ -53,16 +53,18 @@ public class ExchangeRateService {
 
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, ParseException {
-        logger.info("receive message : {}", message);
-
-        for (Session s : clients) {
-            logger.info("send data : {}", message);
-            
-            JSONObject jsonObject = (JSONObject) jsonParser.parse(message);
-            exchanges.put(ExchangeType.valueOf((String) jsonObject.get("exchangeType")), jsonObject);
-            
-            s.getBasicRemote().sendText(message);
-        }
+    	try {
+    		for (Session s : clients) {
+    			
+    			JSONObject jsonObject = (JSONObject) jsonParser.parse(message);
+    			exchanges.put(ExchangeType.valueOf((String) jsonObject.get("exchangeType")), jsonObject);
+    			
+    			s.getBasicRemote().sendText(message);
+    		}
+    		
+    	} catch (IOException | ParseException e) {
+    		System.out.println(e);
+		}
     }
 
     @OnClose
