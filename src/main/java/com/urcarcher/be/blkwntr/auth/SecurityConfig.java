@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -25,6 +26,8 @@ public class SecurityConfig {
 	
 	private final UrcarcherOAuth2Service urcarcherOAuth2Service;
 	private final OAuth2SuccessHandler oAuth2SuccessHandler;
+	
+	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 	
 	private static final String[] WHITE_LIST = {"/**"};
 	
@@ -54,6 +57,9 @@ public class SecurityConfig {
 				})
 				.oauth2Login(oauth2Config -> {
 					oauth2Config
+						.authorizationEndpoint(authEndPoint -> {
+							authEndPoint.authorizationRequestRepository(httpCookieOAuth2AuthorizationRequestRepository);
+						})
 						.userInfoEndpoint(load->load.userService(urcarcherOAuth2Service))
 						.successHandler(oAuth2SuccessHandler);
 				})
