@@ -40,12 +40,7 @@ dependencies {
 	
 	implementation 'net.coobird:thumbnailator:0.4.13'
 	
-<<<<<<< HEAD
-	/*implementation 'org.springframework.boot:spring-boot-starter-security'*/
-=======
 	implementation 'org.springframework.boot:spring-boot-starter-security'
->>>>>>> fa9c15ddc8da05301f3ab953e2fff903306d3266
-	
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'

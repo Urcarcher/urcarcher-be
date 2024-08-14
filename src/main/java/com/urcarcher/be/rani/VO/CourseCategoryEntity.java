@@ -1,10 +1,13 @@
 package com.urcarcher.be.rani.VO;
 
 import java.sql.Date;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,19 +26,26 @@ import lombok.ToString;
 public class CourseCategoryEntity {
 
 	@Id
-	@Column (name="course_id")
+	@Column (name="course_id",length = 10)
 	private String courseId;
 	
-	@Column (name="course_name")
+	@Column (name="course_name",nullable = false,length = 40)
 	private String courseName;
 	
 	@Column (name="course_count")
-	private int courseCount;
+	private Integer courseCount;
 	
 	@Column (name="point_amount")
-	private int pointAmount;
+	private Integer pointAmount;
 	
-	@Column (name="region")
+	@Column (name="region",length = 5)
 	private String region;
+	
+	@OneToMany(mappedBy = "courseCategory")
+    private List<TravelCourseEntity> travelCourses;
+	
+	@OneToMany(mappedBy = "courseCategory")
+	private List<CourseCompletionEntity> courseCompletion;
+	
 	
 }

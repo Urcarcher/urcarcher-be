@@ -7,6 +7,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,24 +27,23 @@ import lombok.ToString;
 public class CourseCompletionEntity {
 	
 	@Id
-	@Column(name="certification_id")
+	@Column(name="certification_id",length = 10)
 	private String certificationId;
 	
-	@Column(name="reward_id")
-	private String rewardId;
-	
-	@Column (name="course_id")
+	@Column (name="course_id",length = 10)
 	private String courseId;
 	
 	@Column(name="member_id")
 	private String memberId;
 	
-	@Column(name="reward_status")
-	private boolean rewardStatus;
+	@Column(name="point_amount")
+	private Integer pointAmount;
 	
 	@CreationTimestamp
-	@Column(name="completion_date")
-	private Date completionDate;
+	@Column(name="payment_date")
+	private Date paymentDate;
 	
-	
+	@ManyToOne
+    @JoinColumn(name = "couse_id", insertable = false, updatable = false)
+    private CourseCategoryEntity courseCategory;
 }

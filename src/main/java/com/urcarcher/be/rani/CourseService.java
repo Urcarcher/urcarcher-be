@@ -28,7 +28,7 @@ public interface CourseService {
 	
 	default PlaceDTO entityToDTO (TravelCourseEntity entity) {
 		PlaceDTO dto = PlaceDTO.builder()
-				.placeId(entity.getPlaceId())
+				.placeId(entity.getId().getPlaceId())
 				.placeName(entity.getPlaceName())
 				.address(entity.getAddress())
 				.latitude(entity.getLatitude())

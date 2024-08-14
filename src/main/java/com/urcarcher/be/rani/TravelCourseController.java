@@ -27,8 +27,9 @@ public class TravelCourseController {
 		return courseService.getCourseList();
 	}
 	
-	@GetMapping("/detail/{courseId}")
+	@GetMapping("/{courseId}")
 	List<PlaceDTO> placeList(@PathVariable("courseId") String courseId){
+		System.out.println(courseService.getPlaceList(courseId).toString());
 		return courseService.getPlaceList(courseId);
 	}
 	

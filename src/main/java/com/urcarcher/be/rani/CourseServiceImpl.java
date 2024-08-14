@@ -29,7 +29,7 @@ public class CourseServiceImpl implements CourseService{
 	
 	@Override
 	public List<PlaceDTO> getPlaceList(String courseId){
-		List<PlaceDTO> placeList = placeRepo.findByCourseId(courseId).stream().map(p->entityToDTO(p))
+		List<PlaceDTO> placeList = placeRepo.findByIdCourseId(courseId).stream().map(p->entityToDTO(p))
 				.collect(Collectors.toList());
 		return placeList;
 	}
