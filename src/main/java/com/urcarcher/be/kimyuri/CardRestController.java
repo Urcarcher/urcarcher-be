@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/card")
+@RequestMapping("/api/card")
 public class CardRestController {
+	
 	final CardService cardService;
+
 	
 	@GetMapping("/list")
 	List<CardDTO> list(){
@@ -33,8 +34,11 @@ public class CardRestController {
 	@PostMapping("/insert")
 	String insert(@RequestBody CardDTO dto) {
 		cardService.create(dto);
-		return "입력작업";
+		return "카드 데이터가 성공적으로 저장되었습니다.";
 	}
+	
+
+
 	
 	@PutMapping("/update")
 	String update(@RequestBody CardDTO dto) {

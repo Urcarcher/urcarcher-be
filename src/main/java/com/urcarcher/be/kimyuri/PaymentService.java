@@ -18,6 +18,10 @@ public interface PaymentService {
 				.paymentId(entity.getPaymentId())
 				.paymentPrice(entity.getPaymentPrice())
 				.paymentDate(entity.getPaymentDate())
+//				.storeId(entity.getStore().getStoreId())
+                .cardId(entity.getCard().getCardId())
+//                .storeName(entity.getStore().getStoreName())
+//                .categoryCode(entity.getStore().getCategoryCode())
 				.build();
 		return dto;
 	}
@@ -30,6 +34,8 @@ public interface PaymentService {
 				.paymentId(dto.getPaymentId())
 				.paymentPrice(dto.getPaymentPrice())
 				.paymentDate(dto.getPaymentDate())
+//				.store(StoreEntity.builder().storeId(dto.getStoreId()).build())
+	            .card(CardEntity.builder().cardId(dto.getCardId()).build())
 				.build();
 		return entity;
 	}

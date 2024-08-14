@@ -26,6 +26,9 @@ public class PaymentServiceImpl implements PaymentService{
 		List<PaymentDTO> dtoList = entityList.stream().map(entity -> entityToDTO(entity))
 				.collect(Collectors.toList());
 		return dtoList;
+		
+//		  기존 findAll() 대신 findAllPaymentsWithStoreName() 사용
+//        return paymentRepo.findAllPaymentsWithStoreName();
 	}
 	
 	@Override
