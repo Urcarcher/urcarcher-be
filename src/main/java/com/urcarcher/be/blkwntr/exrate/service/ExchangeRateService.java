@@ -9,11 +9,13 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.urcarcher.be.blkwntr.exrate.ExchangeType;
+import com.urcarcher.be.blkwntr.exrate.ServerEndpointConfigurator;
 
 import jakarta.websocket.OnClose;
+import jakarta.websocket.OnError;
 import jakarta.websocket.OnMessage;
 import jakarta.websocket.OnOpen;
 import jakarta.websocket.Session;
@@ -22,8 +24,8 @@ import net.minidev.json.JSONObject;
 import net.minidev.json.parser.JSONParser;
 import net.minidev.json.parser.ParseException;
 
-@Service
-@ServerEndpoint("/realtime/rate")
+@Component
+@ServerEndpoint(value = "/realtime/rate", configurator = ServerEndpointConfigurator.class)
 public class ExchangeRateService {
 	private static Set<Session> clients = Collections.synchronizedSet(new HashSet<Session>());
     private static Logger logger = LoggerFactory.getLogger(ExchangeRateService.class);
@@ -52,7 +54,23 @@ public class ExchangeRateService {
     }
 
     @OnMessage
-    public void onMessage(String message, Session session) throws IOException, ParseException {
+    public void onMessage(String message, Session session) {
+		broadcast(message);
+    }
+
+    @OnClose
+    public void onClose(Session session) {
+        logger.info("session close : {}", session);
+        clients.remove(session);
+    }
+    
+    @OnError
+    public void onError(Session session, Throwable throwable) {
+    	logger.warn("onError : " + throwable.getMessage());
+    	clients.remove(session);
+    }
+    
+    private void broadcast(String message) {
     	try {
     		for (Session s : clients) {
     			
@@ -61,15 +79,8 @@ public class ExchangeRateService {
     			
     			s.getBasicRemote().sendText(message);
     		}
-    		
-    	} catch (IOException | ParseException e) {
-    		System.out.println(e);
-		}
-    }
-
-    @OnClose
-    public void onClose(Session session) {
-        logger.info("session close : {}", session);
-        clients.remove(session);
+    	} catch(IOException | ParseException e) {
+    		e.printStackTrace();
+    	}
     }
 }
