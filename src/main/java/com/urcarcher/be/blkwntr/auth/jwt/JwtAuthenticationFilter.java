@@ -1,4 +1,4 @@
-package com.urcarcher.be.blkwntr.security.jwt;
+package com.urcarcher.be.blkwntr.auth.jwt;
 
 import java.io.IOException;
 
@@ -11,23 +11,40 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter extends GenericFilterBean {
 	
 	private final JwtTokenProvider jwtTokenProvider;
+	private final JwtCookieProvider jwtCookieProvider;
 	
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
 		
-		String token = resolveToken((HttpServletRequest) request);
+		HttpServletRequest http_request = (HttpServletRequest) request;
+		HttpServletResponse http_response = (HttpServletResponse) response;
 		
-		if(token != null && jwtTokenProvider.validateToken(token)) {
+		String refreshToken = jwtCookieProvider.getRefreshToken(http_request);
+		
+		String token = resolveToken(http_request);
+		
+		if(token != null) {
 			Authentication authentication = jwtTokenProvider.getAuthentication(token);
-			SecurityContextHolder.getContext().setAuthentication(authentication);
+			if(jwtTokenProvider.validateToken(token)) {
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+			} else {
+				if(refreshToken != null) {
+					if(jwtTokenProvider.validateToken(refreshToken)) {
+						http_response.addCookie(jwtCookieProvider.createCookieForAccessToken(jwtTokenProvider.generateAccessToken(authentication)));
+						SecurityContextHolder.getContext().setAuthentication(authentication);
+					}
+				}
+			}
 		}
 		
 		chain.doFilter(request, response);
