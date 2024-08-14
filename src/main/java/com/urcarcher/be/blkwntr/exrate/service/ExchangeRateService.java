@@ -76,7 +76,7 @@ public class ExchangeRateService {
     			
     			JSONObject jsonObject = (JSONObject) jsonParser.parse(message);
     			exchanges.put(ExchangeType.valueOf((String) jsonObject.get("exchangeType")), jsonObject);
-    			
+    			System.out.println(message);
     			s.getBasicRemote().sendText(message);
     		}
     	} catch(IOException | ParseException e) {
