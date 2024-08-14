@@ -1,4 +1,4 @@
-package com.urcarcher.be.blkwntr.security.dto;
+package com.urcarcher.be.blkwntr.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
