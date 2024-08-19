@@ -14,27 +14,27 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class StoreDBTestTable {
+public class StoreEntity {
     @Id
-    private String store_id;  // PK
+    private String storeId; 
 
-    private String store_name;
+    private String storeName;
 
-    private String store_phone;
+    private String storeAddr;
+    
+    private String storeRoadAddr;
+    
+    private String storePhone;
 
-    private String store_addr;
+    private String storeUrl;
     
-    private String store_road_addr;
+    private String storeX; //경도
     
-    private String stroe_url;
+    private String storeY; //위도
     
-    private String stroe_x; //경도
+    private String categoryCode;  
     
-    private String stroe_y; //위도
-    
-    private String category_code;  
-    
-    private String category_name;  
+    private String categoryName;   
     
 }
 
