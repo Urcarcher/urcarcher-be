@@ -33,55 +33,42 @@ public class UrlPreviewController {
 	@GetMapping("/url")
 	public LinkPreviewDTO getUrlPreview(@RequestParam("url") String url) throws Exception {
         try {
+        	// 넘어오는 url 형태 : http://place.map.kakao.com/2040780653
+        	// 수정 할 url 형태 : https://place.map.kakao.com/main/v/2040780653
+        	// 얻어야 하는 이미지 url : http://t1.daumcdn.net/place/7440664029DC46ABB5849413E1F011DF
         	
+        	// 원래 URL에서 https 수정, /main/v/ 추가
+        	url = transformUrl(url);
+        	// Jsoup을 사용
         	Document doc = Jsoup.parse(url);
-        	// http://place.map.kakao.com/2040780653
-        	// https://place.map.kakao.com/main/v/2040780653
-        	// http://t1.daumcdn.net/place/7440664029DC46ABB5849413E1F011DF
-            // Jsoup을 사용하여 HTML 문서를 가져옴
-            //Document doc = Jsoup.connect(url).get();
-            
-            System.out.println(url);
-
-            //System.out.println(doc);
-            
-            
-            // 타이틀과 설명 추출 (추가 로직)
-            String title = doc.title();
-            String description = ""; 
-
-            // bg_present 클래스를 가진 span 태그 선택
-//            Element spanWithBackground = doc.selectFirst("span.bg_present");
-//            String imageUrl = null;
-//            if (spanWithBackground != null) {
-//                String style = spanWithBackground.attr("style"); // style 속성 값 가져오기
-//                log.info("Extracted style attribute: {}", style); 
-//                imageUrl = extractBackgroundImageUrl(style); // background-image URL 추출
-//                log.info("Extracted image URL: {}", imageUrl); 
-//            }
-//            
-            // 원래 URL에서 중간에 /main/v/ 추가
-            String jsonUrl = transformUrl(url);
-
+            String jsonUrl = url;
             // JSON 데이터 추출
             String jsonResponse = fetchJsonFromUrl(jsonUrl);
-            System.out.println(jsonResponse);
             // JSON 파싱 및 mainphotourl 추출
             String imageUrl = extractMainPhotoUrl(jsonResponse); //mainPhotoUrl
-
-
-            return new LinkPreviewDTO(title, description, imageUrl, url);
+            LinkPreviewDTO dto = new LinkPreviewDTO(imageUrl);
+            
+            System.out.println(dto);
+            
+            return dto;
             
     
         } catch (IOException e) {
             e.printStackTrace();
-            return new LinkPreviewDTO("Failed to load", "", "", url);
+            
+            return new LinkPreviewDTO("실패");
         }
     }
 	
 	 // URL 변환 함수
     private String transformUrl(String originalUrl) {
-        return originalUrl.replace(".com/", ".com/main/v/");
+    	
+    	System.out.println(originalUrl.replace(".com/", ".com/main/v/"));
+    	
+    	originalUrl = originalUrl.replace("http", "https");
+    	originalUrl = originalUrl.replace(".com/", ".com/main/v/");
+    	
+        return originalUrl;
     }
 
     // JSON 데이터를 URL에서 가져오는 함수
