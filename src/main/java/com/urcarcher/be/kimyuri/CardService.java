@@ -2,7 +2,7 @@ package com.urcarcher.be.kimyuri;
 
 import java.util.List;
 
-import com.urcarcher.be.blkwntr.entity.MemberEntity;
+import com.urcarcher.be.blkwntr.entity.Member;
 
 
 public interface CardService {
@@ -48,7 +48,7 @@ public interface CardService {
 
     // DTO -> Entity
 //    default CardEntity dtoToEntity(CardDTO dto) {
-    default CardEntity dtoToEntity(CardDTO dto, MemberEntity member, CardTypeEntity cardType) {
+    default CardEntity dtoToEntity(CardDTO dto, Member member, CardTypeEntity cardType) {
         CardEntity entity = CardEntity.builder()
 //                .cardId(dto.getCardId())
                 .cardNumber(dto.getCardNumber())
