@@ -44,7 +44,6 @@ public class ExchangeRateService {
     public void onOpen(Session session) {
         logger.info("open session : {}, clients={}", session.toString(), clients);
 
-
         if(!clients.contains(session)) {
             clients.add(session);
             logger.info("session open : {}", session);
