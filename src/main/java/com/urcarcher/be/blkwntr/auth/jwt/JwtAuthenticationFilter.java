@@ -7,6 +7,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.GenericFilterBean;
 
+import com.urcarcher.be.common.CookieUtils;
+
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;
@@ -52,11 +54,12 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 	}
 	
 	private String resolveToken(HttpServletRequest request) {
-		String bearerToken = request.getHeader("Authorization");
-		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-			return bearerToken.substring(7);
-		}
+//		String bearerToken = request.getHeader("Authorization");
+//		if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+//			return bearerToken.substring(7);
+//		}
+		Cookie accessTokenCookie = CookieUtils.getCookie(request, "URCARCHER_ACCESS_TOKEN").orElse(null);
+		if(accessTokenCookie != null) return accessTokenCookie.getValue();
 		return null;
 	}
-	
 }

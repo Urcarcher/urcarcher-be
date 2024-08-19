@@ -32,7 +32,7 @@ public class TourController {
             @RequestParam(value = "MobileApp", defaultValue = "AppTest") String mobileApp,
             @RequestParam(value = "_type", defaultValue = "json") String type,
             @RequestParam(value = "listYN", defaultValue = "Y") String listYN,
-            @RequestParam(value = "arrange", defaultValue = "A") String arrange,
+            @RequestParam(value = "arrange", defaultValue = "R") String arrange,
             @RequestParam(value = "contentTypeId", defaultValue = "12") String contentTypeId, // 관광타입ID = 관광지 : 12 / 식당 : 
             @RequestParam(value = "areaCode", required = false) String areaCode,
             @RequestParam(value = "sigunguCode", required = false) String sigunguCode,

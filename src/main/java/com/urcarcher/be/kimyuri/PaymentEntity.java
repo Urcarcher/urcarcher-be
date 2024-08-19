@@ -2,6 +2,8 @@ package com.urcarcher.be.kimyuri;
 
 import java.time.LocalDateTime;
 
+import com.urcarcher.be.jjjh.entity.StoreDBTestTable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,9 +33,9 @@ public class PaymentEntity {
 	@Column(nullable = false)
 	LocalDateTime paymentDate;
 
-//	@ManyToOne
-//	@JoinColumn(name = "store_id", nullable = false)
-//	StoreEntity store;
+	@ManyToOne
+	@JoinColumn(name = "store_id", nullable = false)
+	StoreDBTestTable store;
 
 	@ManyToOne
 	@JoinColumn(name = "card_id", nullable = false)
