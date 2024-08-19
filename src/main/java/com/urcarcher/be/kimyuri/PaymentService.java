@@ -2,6 +2,8 @@ package com.urcarcher.be.kimyuri;
 
 import java.util.List;
 
+import com.urcarcher.be.jjjh.entity.StoreDBTestTable;
+
 public interface PaymentService {
 	
 	void insert(PaymentDTO dto);
@@ -18,10 +20,10 @@ public interface PaymentService {
 				.paymentId(entity.getPaymentId())
 				.paymentPrice(entity.getPaymentPrice())
 				.paymentDate(entity.getPaymentDate())
-//				.storeId(entity.getStore().getStoreId())
                 .cardId(entity.getCard().getCardId())
-//                .storeName(entity.getStore().getStoreName())
-//                .categoryCode(entity.getStore().getCategoryCode())
+                .store_id(entity.getStore().getStore_id())
+				.store_name(entity.getStore().getStore_name())
+				.category_code(entity.getStore().getCategory_code())
 				.build();
 		return dto;
 	}
@@ -34,8 +36,13 @@ public interface PaymentService {
 				.paymentId(dto.getPaymentId())
 				.paymentPrice(dto.getPaymentPrice())
 				.paymentDate(dto.getPaymentDate())
-//				.store(StoreEntity.builder().storeId(dto.getStoreId()).build())
-	            .card(CardEntity.builder().cardId(dto.getCardId()).build())
+				.card(CardEntity.builder().cardId(dto.getCardId()).build())
+				.store(StoreDBTestTable.builder()
+				        .store_id(dto.getStore_id())
+				        .store_name(dto.getStore_name())
+				        .category_code(dto.getCategory_code())
+				        .build())
+	            
 				.build();
 		return entity;
 	}
