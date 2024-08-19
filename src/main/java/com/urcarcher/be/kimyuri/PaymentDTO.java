@@ -16,9 +16,10 @@ public class PaymentDTO {
 	Double paymentPrice;
 	LocalDateTime paymentDate;
 	
-	Long storeId;
     Long cardId;
-    String storeName;
     
-    String categoryCode;
+    String store_id;
+    String store_name;
+    
+    String category_code;
 }
