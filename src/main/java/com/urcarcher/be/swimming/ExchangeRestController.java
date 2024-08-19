@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.urcarcher.be.kimyuri.CardDTO;
-import com.urcarcher.be.kimyuri.CardService;
+import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
 import com.urcarcher.be.swimming.service.ExchangeService;
 
@@ -24,18 +24,20 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api/exchange")
 public class ExchangeRestController {
 	final ExchangeService infoService;
-	final CardService cardService;
 	
-	// 소유한 카드 정보 조회
+	// 카드 리스트 조회
 	@GetMapping("/list")
-	public List<CardDTO> getList() {
-		 return cardService.readAll();
+	public List<ExchangeCardDTO> getList() {
+		String memberId = "bleakwinter";
+		
+		return infoService.getList(memberId);
 	}
 	
-	// 바로 충전 입력
+	// 바로 충전
 	@PostMapping("/insert")
 	String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
-		infoService.exchangeInsert(infoDto);
+		String memberId = "bleakwinter";
+		infoService.exchangeInsert(infoDto, memberId);
 		
 		Long currency = infoDto.getExCur();
         
