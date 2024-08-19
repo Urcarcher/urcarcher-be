@@ -35,6 +35,7 @@ public class CardServiceImpl implements CardService {
     public void create(CardDTO dto) {
         Member member = memberRepo.findById(dto.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
         CardTypeEntity cardType = cardTypeRepo.findById(dto.getCardTypeId()).orElseThrow(() -> new RuntimeException("Card Type not found"));
+
         CardEntity entity = dtoToEntity(dto, member, cardType);
         cardRepo.save(entity);
     }

@@ -1,6 +1,7 @@
 package com.urcarcher.be.syc98syc.signup.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,9 +16,10 @@ import com.urcarcher.be.syc98syc.signup.service.SignupService;
 
 import lombok.RequiredArgsConstructor;
 
+@CrossOrigin
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/signup")
+@RequestMapping("/api/signup")
 public class SignupController {
 	
 	private final SignupService sService;
