@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.urcarcher.be.blkwntr.entity.MemberEntity;
+import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.blkwntr.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CardServiceImpl implements CardService {
     
     @Override
     public void create(CardDTO dto) {
-        MemberEntity member = memberRepo.findById(dto.getMemberId()).orElse(null);
+    	Member member = memberRepo.findById(dto.getMemberId()).orElse(null);
         CardTypeEntity cardType = cardTypeRepo.findById(dto.getCardTypeId()).orElse(null);
         CardEntity entity = dtoToEntity(dto, member, cardType);
         cardRepo.save(entity);
