@@ -62,5 +62,4 @@ public class JwtAuthenticationFilter extends GenericFilterBean {
 		if(accessTokenCookie != null) return accessTokenCookie.getValue();
 		return null;
 	}
-	
 }
