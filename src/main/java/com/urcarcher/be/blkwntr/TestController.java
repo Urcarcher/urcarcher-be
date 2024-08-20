@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-package com.urcarcher.be.blkwntr;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-@RequestMapping("/api/t")
-public class TestController {
-	
-	@GetMapping("/test")
-	String test() {
-		return "In the bleak midwinter.";
-	}
-}
-=======
 package com.urcarcher.be.blkwntr;
 
 import java.util.HashMap;
@@ -78,4 +61,5 @@ public class TestController {
 		return ExchangeRateService.getRateInfoByExType(ExchangeType.USD);
 	}
 }
->>>>>>> e0976b33df46727ffa61c1363548f8ec5366ba5f
+
+

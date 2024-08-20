@@ -1,8 +1,10 @@
 package com.urcarcher.be.kimyuri;
 
+
+
 import java.time.LocalDate;
 
-import com.urcarcher.be.blkwntr.entity.MemberEntity;
+import com.urcarcher.be.blkwntr.entity.Member;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -69,7 +71,7 @@ public class CardEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id", nullable = false)
-    MemberEntity member;
+    Member member;
 
     @ManyToOne
     @JoinColumn(name = "card_type_id", nullable = false)
