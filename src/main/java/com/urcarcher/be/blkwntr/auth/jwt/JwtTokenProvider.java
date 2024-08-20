@@ -31,10 +31,10 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class JwtTokenProvider {
 	private final Key key;
-//	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30L;
-//	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 30L;
-	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 5L;
-	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 10L;
+	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30L;
+	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 30L;
+//	private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 5L;
+//	private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 10L;
 	
 	public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
 		byte[] keyBytes = Decoders.BASE64.decode(secretKey);
