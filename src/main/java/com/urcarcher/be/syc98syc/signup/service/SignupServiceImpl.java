@@ -22,4 +22,9 @@ public class SignupServiceImpl implements SignupService{
 		return newMember.getMemberId() + "회원가입 성공!";
 	}
 
+	@Override
+	public boolean idDupCheck(String memId) {
+		return sRepo.existsByMemberId(memId);
+	}
+
 }
