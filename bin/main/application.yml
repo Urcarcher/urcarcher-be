@@ -21,7 +21,7 @@ spring:
       location: C:\\upload
       max-request-size: 30MB
       max-file-size: 10MB
-    
+
 server:
   servlet:
     encoding:
@@ -36,5 +36,11 @@ server:
     enabled: true
   port: 8443
 
+
+google:
+   api:
+     key: AIzaSyDjWcnM0idooe--a1VIYhNpoVBCcNu7s-4
 jwt:
   secret: 95ad92b98db7213f0e6558fe697e7d1ab4444df10ab5361629e03aabcf4d4db0464d942925c88e5584d42336a319f765e6279408182a4aba1aa129ae281a101c
+
+
