@@ -61,3 +61,5 @@ public class TestController {
 		return ExchangeRateService.getRateInfoByExType(ExchangeType.USD);
 	}
 }
+
+
