@@ -40,7 +40,8 @@ public class Member {
 	
 	private String name;
 	private String email;
-	private String dateOfBirth;
+	//private String dateOfBirth;
+	private String registrationNumber;
 	private String gender;
 	private String nationality;
 	private String passportNumber;
@@ -55,6 +56,9 @@ public class Member {
 	
 	@CreationTimestamp
 	private Timestamp registrationDate;
+	
+	
+	
 	
 	@Enumerated(EnumType.STRING)
 	private MemberRole role;

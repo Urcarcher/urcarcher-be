@@ -66,7 +66,7 @@ public class CardRestController {
 	        return MemberDTO.builder()
 	                .memberId(member.getMemberId())
 	                .name(member.getName())
-	                .dateOfBirth(member.getDateOfBirth())
+	                //.dateOfBirth(member.getDateOfBirth())
 	                .phoneNumber(member.getPhoneNumber())
 	                .build();
 	    }

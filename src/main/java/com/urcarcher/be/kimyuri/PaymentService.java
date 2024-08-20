@@ -46,7 +46,5 @@ public interface PaymentService {
 				.build();
 		return entity;
 	}
-	
-	
-	
 }
+
