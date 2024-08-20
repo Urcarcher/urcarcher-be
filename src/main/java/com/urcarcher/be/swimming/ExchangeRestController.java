@@ -45,6 +45,6 @@ public class ExchangeRestController {
         NumberFormat krwFormat = NumberFormat.getCurrencyInstance(Locale.KOREA);
         String formatAmount = krwFormat.format(currency);
 		
-		return "KRW " + formatAmount + " 을 채웠어요";
+		return "KRW " + formatAmount;
 	}
 }
