@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.urcarcher.be.kimyuri.CardEntity;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,6 +14,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -31,8 +34,8 @@ public class ExchangeSetEntity {
 	@Id
 	private Long setId; // 예약번호
 	
-	@Column(nullable = false)
-	private Long cardId; // 카드 ID (관계설정 후 삭제해야 함)
+	// @Column(nullable = false)
+	// private Long cardId; // 카드 ID (관계설정 후 삭제해야 함)
 	
 	@Column(nullable = false)
 	private Double setRate; // 예약환율
@@ -49,7 +52,7 @@ public class ExchangeSetEntity {
 			fetch = FetchType.LAZY)
 	List<ExchangeInfoEntity> infoList;
 	
-//	@JoinColumn(name = "card_id")
-//	@OneToOne
-//	CardEntity card;
+	@JoinColumn(name = "card_id")
+	@OneToOne
+	CardEntity card;
 }
