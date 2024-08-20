@@ -29,7 +29,6 @@ public class StoreService {
     }
 	 
 	
-
     public List<StoreWithCountDTO> getMostUsedStoresExcludingMember(String memberId) {
     	
         List<Object[]> results = storeRepository.findMostUsedStoresExcludingMember(memberId);

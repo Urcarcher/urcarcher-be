@@ -47,15 +47,11 @@ public class UrlPreviewController {
             // JSON 파싱 및 mainphotourl 추출
             String imageUrl = extractMainPhotoUrl(jsonResponse); //mainPhotoUrl
             LinkPreviewDTO dto = new LinkPreviewDTO(imageUrl);
-            
-            System.out.println(dto);
-            
+            //System.out.println(dto);
             return dto;
-            
     
         } catch (IOException e) {
             e.printStackTrace();
-            
             return new LinkPreviewDTO("실패");
         }
     }
@@ -63,8 +59,7 @@ public class UrlPreviewController {
 	 // URL 변환 함수
     private String transformUrl(String originalUrl) {
     	
-    	System.out.println(originalUrl.replace(".com/", ".com/main/v/"));
-    	
+    	//System.out.println(originalUrl.replace(".com/", ".com/main/v/"));
     	originalUrl = originalUrl.replace("http", "https");
     	originalUrl = originalUrl.replace(".com/", ".com/main/v/");
     	
