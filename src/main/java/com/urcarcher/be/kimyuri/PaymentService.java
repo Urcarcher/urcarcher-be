@@ -31,7 +31,6 @@ public interface PaymentService {
 	
 	// DTO -> Entity
 	default PaymentEntity dtoToEntity(PaymentDTO dto) {
-		
 		PaymentEntity entity = PaymentEntity.builder()
 				.paymentId(dto.getPaymentId())
 				.paymentPrice(dto.getPaymentPrice())
@@ -42,7 +41,6 @@ public interface PaymentService {
 				        .storeName(dto.getStore_name())
 				        .categoryCode(dto.getCategory_code())
 				        .build())
-	            
 				.build();
 		return entity;
 	}
