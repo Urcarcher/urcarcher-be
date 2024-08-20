@@ -11,6 +11,7 @@ import com.urcarcher.be.syc98syc.signup.dto.MemberDTO;
 public interface SignupService {
 	
 	String signupLocalMember(MemberDTO dto);
+	boolean idDupCheck(String memId);
 	
 	//DTO -> Entity (DB에 반영하기위함)
 		//insert, update시 사용
@@ -25,7 +26,7 @@ public interface SignupService {
 			        .name(dto.getName())
 			        .password(dto.getPassword())
 			        .phoneNumber(dto.getPhoneNumber())
-			        .dateOfBirth(dto.getDateOfBirth())
+			        .registrationNumber(dto.getRegistrationNumber())
 			        .nationality(dto.getNationality())
 			        .build();
 			return entity;

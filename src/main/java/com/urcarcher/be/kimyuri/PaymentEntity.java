@@ -2,7 +2,7 @@ package com.urcarcher.be.kimyuri;
 
 import java.time.LocalDateTime;
 
-import com.urcarcher.be.jjjh.entity.StoreDBTestTable;
+import com.urcarcher.be.jjjh.entity.StoreEntity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,7 +35,7 @@ public class PaymentEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "store_id", nullable = false)
-	StoreDBTestTable store;
+	StoreEntity store;
 
 	@ManyToOne
 	@JoinColumn(name = "card_id", nullable = false)

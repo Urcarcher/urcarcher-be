@@ -2,7 +2,7 @@ package com.urcarcher.be.kimyuri;
 
 import java.util.List;
 
-import com.urcarcher.be.jjjh.entity.StoreDBTestTable;
+import com.urcarcher.be.jjjh.entity.StoreEntity;
 
 public interface PaymentService {
 	
@@ -21,9 +21,9 @@ public interface PaymentService {
 				.paymentPrice(entity.getPaymentPrice())
 				.paymentDate(entity.getPaymentDate())
                 .cardId(entity.getCard().getCardId())
-                .store_id(entity.getStore().getStore_id())
-				.store_name(entity.getStore().getStore_name())
-				.category_code(entity.getStore().getCategory_code())
+                .store_id(entity.getStore().getStoreId())
+				.store_name(entity.getStore().getStoreName())
+				.category_code(entity.getStore().getCategoryCode())
 				.build();
 		return dto;
 	}
@@ -37,10 +37,10 @@ public interface PaymentService {
 				.paymentPrice(dto.getPaymentPrice())
 				.paymentDate(dto.getPaymentDate())
 				.card(CardEntity.builder().cardId(dto.getCardId()).build())
-				.store(StoreDBTestTable.builder()
-				        .store_id(dto.getStore_id())
-				        .store_name(dto.getStore_name())
-				        .category_code(dto.getCategory_code())
+				.store(StoreEntity.builder()
+				        .storeId(dto.getStore_id())
+				        .storeName(dto.getStore_name())
+				        .categoryCode(dto.getCategory_code())
 				        .build())
 	            
 				.build();
