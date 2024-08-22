@@ -26,7 +26,7 @@ import lombok.ToString;
 public class CourseCategoryEntity {
 
 	@Id
-	@Column (name="course_id",length = 10)
+	@Column (name="course_id",length = 20)
 	private String courseId;
 	
 	@Column (name="course_name",nullable = false,length = 40)
@@ -37,6 +37,9 @@ public class CourseCategoryEntity {
 	
 	@Column (name="point_amount")
 	private Integer pointAmount;
+	
+	@Column (name="course_img")
+	private String courseImg;
 	
 	@Column (name="region",length = 5)
 	private String region;

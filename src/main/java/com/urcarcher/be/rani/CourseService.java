@@ -22,6 +22,7 @@ public interface CourseService {
 				.courseId(entity.getCourseId())
 				.courseName(entity.getCourseName())
 				.region(entity.getRegion())
+				.courseImg(entity.getCourseImg())
 				.build();
 		return dto;
 	}
