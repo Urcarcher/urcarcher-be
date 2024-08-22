@@ -16,4 +16,5 @@ public class CourseDTO {
 	String courseId;
 	String courseName;
 	String region;
+	String courseImg;
 }
