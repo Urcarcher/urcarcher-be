@@ -18,6 +18,9 @@ public interface ExchangeService {
 	// 바로 환전
 	public void exchangeInsert(ExchangeInfoDTO infoDto, String memberId);
 	
+	// 예약 내역 조회
+	public ExchangeSetDTO setDetail(Long cardId, String memberId);
+	
 	// 예약 환전
 	public void setInsert(ExchangeSetDTO setDto, String memberId);
 	
@@ -83,6 +86,23 @@ public interface ExchangeService {
 		System.out.println("******************** setEntity 확인 : " + setEntity);
 		return setEntity;
 	};
+	
+	// 예약 환전 Entity -> DTO
+	default ExchangeSetDTO setEntityToDto(ExchangeSetEntity setEntity) {
+		ExchangeSetDTO setDto = ExchangeSetDTO.builder()
+				.setId(setEntity.getSetId())
+				.cardId(setEntity.getCard().getCardId())
+				.cardUsage(setEntity.getCard().getCardType().getCardUsage())
+				.setRate(setEntity.getSetRate())
+				.setCur(setEntity.getSetCur())
+				.setPay(setEntity.getSetPay())
+				.setDate(setEntity.getSetDate())
+				.setUpdate(setEntity.getSetUpdate())
+				.build();
+		
+		System.out.println("******************** setDto 확인 : " + setDto);
+		return setDto;
+	}
 	
 	// 카드 리스트 조회 Entity -> DTO
 	default ExchangeCardDTO cardEntityToDto(CardEntity card, CardTypeEntity type) {

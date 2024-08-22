@@ -11,6 +11,7 @@ import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
+import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
 import com.urcarcher.be.swimming.repository.ExchangeRepository;
 import com.urcarcher.be.swimming.repository.ExchangeSetRepository;
 
@@ -67,6 +68,20 @@ public class ExchangeServiceImpl implements ExchangeService {
 		
 		// 환전 내역에 추가
 		exRepo.save(infoDtoToEntity(infoDto));
+	}
+	
+	// 예약 내역 조회
+	@Override
+	public ExchangeSetDTO setDetail(Long cardId, String memberId) {
+		// 예약할 카드 가져오기
+		CardEntity card = exRepo.findByCard(memberId, cardId);
+		
+		ExchangeSetEntity entity = setRepo.findByCurSet(card.getCardId());
+		System.out.println("******************** entity 확인" + entity);
+		
+		if (entity == null) return null;
+		
+		return setEntityToDto(entity);
 	}
 
 	// 예약 환전
