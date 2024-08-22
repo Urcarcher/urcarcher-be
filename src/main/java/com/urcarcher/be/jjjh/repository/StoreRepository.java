@@ -48,9 +48,9 @@ public interface StoreRepository extends JpaRepository<StoreEntity, String> {
               "s.store_addr, " +
               "s.store_road_addr, " +
               "s.store_phone, " +
-              "s.stroe_url, " +
-              "s.stroe_x, " +
-              "s.stroe_y, " +
+              "s.store_url, " +
+              "s.store_x, " +
+              "s.store_y, " +
               "s.category_code, " +
               "s.category_name, " +
               "COUNT(p.payment_id) AS usage_count " +
@@ -59,7 +59,7 @@ public interface StoreRepository extends JpaRepository<StoreEntity, String> {
               "JOIN test_card c ON p.card_id = c.card_id " +
               "WHERE c.member_id != :memberId " +  // 로그인한 회원의 결제 내역 제외
               "GROUP BY s.store_id, s.store_name, s.store_addr, s.store_road_addr, " +
-              "s.store_phone, s.stroe_url, s.stroe_x, s.stroe_y, " +
+              "s.store_phone, s.store_url, s.store_x, s.store_y, " +
               "s.category_code, s.category_name " +
               "ORDER BY usage_count DESC", 
       nativeQuery = true)
