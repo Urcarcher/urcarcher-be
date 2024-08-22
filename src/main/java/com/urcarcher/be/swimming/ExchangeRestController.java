@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.urcarcher.be.kimyuri.CardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
+import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.service.ExchangeService;
 
 import lombok.RequiredArgsConstructor;
@@ -23,21 +24,21 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/api/exchange")
 public class ExchangeRestController {
-	final ExchangeService infoService;
+	final ExchangeService exService;
 	
 	// 카드 리스트 조회
 	@GetMapping("/list")
 	public List<ExchangeCardDTO> getList() {
 		String memberId = "bleakwinter";
 		
-		return infoService.getList(memberId);
+		return exService.getList(memberId);
 	}
 	
-	// 바로 충전
+	// 바로 환전
 	@PostMapping("/insert")
-	String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
+	public String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
 		String memberId = "bleakwinter";
-		infoService.exchangeInsert(infoDto, memberId);
+		exService.exchangeInsert(infoDto, memberId);
 		
 		Long currency = infoDto.getExCur();
         
@@ -46,5 +47,14 @@ public class ExchangeRestController {
         String formatAmount = krwFormat.format(currency);
 		
 		return "KRW " + formatAmount;
+	}
+	
+	// 예약 환전
+	@PostMapping("/rate/insert")
+	public void setInsert(@RequestBody ExchangeSetDTO setDto) {
+		String memberId = "bleakwinter";
+		System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
+		
+		exService.setInsert(setDto, memberId);
 	}
 }

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
+import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
 
 import jakarta.transaction.Transactional;
 
@@ -19,14 +20,14 @@ public interface ExchangeRepository extends JpaRepository<ExchangeInfoEntity, Lo
 			+ " WHERE m.memberId = ?1")
 	List<Object[]> findByMemberId(String memberId);
 	
-	// 충전할 카드 가져오기
+	// 카드 정보 가져오기
 	@Query("SELECT c, ct FROM CardEntity c"
 			+ " JOIN Member m on (c.member = m)"
 			+ " JOIN CardTypeEntity ct on (c.cardType = ct)"
 			+ " WHERE m.memberId = ?1 AND c.cardId = ?2")
 	CardEntity findByCard(String memberId, Long cardId);
 	
-	// 바로 충전 시 카드잔액 + 환전금액
+	// 환전 시 카드잔액 + 환전금액
 	@Transactional
 	@Modifying
 	@Query("UPDATE CardEntity c SET c.cardBalance = ?2"
