@@ -1,5 +1,6 @@
 package com.urcarcher.be.jjjh.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -28,8 +29,10 @@ public class StoreEntity {
 
     private String storeUrl;
     
+    @Column(name = "store_x")
     private String storeX; //경도
     
+    @Column(name = "store_y")
     private String storeY; //위도
     
     private String categoryCode;  
