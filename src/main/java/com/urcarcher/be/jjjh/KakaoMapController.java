@@ -45,8 +45,8 @@ public class KakaoMapController {
 	    if (result != null) {
 	    	
 	    	// 검색 결과를 가맹점 DB에 저장
-	    	//https://urcarcher-local.kro.kr:8443/api/kakaomap/search?keyword=여기에키워드작성(검색과 동시에 insert됨)
-            //storeService.saveStoreData(result.toString());
+	    	//https://urcarcher-local.kro.kr:8443/api/kakaomap/search?keyword=여기에키워드작성(브라우저에서 검색과 동시에 insert/update됨)
+            //storeService.saveStoreData(result.toString()); //insert 시 주석 풀기
 
             return ResponseEntity.ok(result);
 	    } else {
