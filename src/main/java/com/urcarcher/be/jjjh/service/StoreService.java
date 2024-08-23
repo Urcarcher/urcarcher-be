@@ -2,6 +2,7 @@ package com.urcarcher.be.jjjh.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,6 @@ public class StoreService {
     }
 	 
 	
-
     public List<StoreWithCountDTO> getMostUsedStoresExcludingMember(String memberId) {
     	
         List<Object[]> results = storeRepository.findMostUsedStoresExcludingMember(memberId);
@@ -92,12 +92,29 @@ public class StoreService {
                     String category_name = doc.get("category_group_name").asText(); 
                     String store_x = doc.get("x").asText(); 
                     String store_y = doc.get("y").asText(); 
-
-                    // Store 엔티티 생성 (순서 중요)
-                    StoreEntity store = new StoreEntity(store_id, store_name, store_phone,store_addr, store_road_addr , store_url,store_x,store_y, category_code, category_name);
                     
-                    // Store 엔티티를 데이터베이스에 저장
-                    storeRepository.save(store);
+                    // 기존 Store 엔티티가 존재하는지 확인
+                    Optional<StoreEntity> existingStoreOpt = storeRepository.findById(store_id);
+                    
+                    if (existingStoreOpt.isPresent()) {
+                        // 기존 엔티티가 존재하면 업데이트
+                        StoreEntity existingStore = existingStoreOpt.get();
+                        existingStore.setStoreName(store_name);
+                        existingStore.setStoreAddr(store_addr);
+                        existingStore.setStoreRoadAddr(store_road_addr);
+                        existingStore.setStorePhone(store_phone);
+                        existingStore.setStoreUrl(store_url);
+                        existingStore.setStoreX(store_x);
+                        existingStore.setStoreY(store_y);
+                        existingStore.setCategoryCode(category_code);
+                        existingStore.setCategoryName(category_name);
+                        
+                        storeRepository.save(existingStore);
+                    } else {
+                        // 존재하지 않으면 새로 생성하여 저장
+                        StoreEntity newStore = new StoreEntity(store_id, store_name, store_addr, store_road_addr, store_phone, store_url, store_x, store_y, category_code, category_name);
+                        storeRepository.save(newStore); //DB저장
+                    }
                 }
             }
         } catch (Exception e) {

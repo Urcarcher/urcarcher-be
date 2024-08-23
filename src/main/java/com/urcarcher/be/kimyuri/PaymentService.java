@@ -1,5 +1,4 @@
 package com.urcarcher.be.kimyuri;
-
 import java.util.List;
 
 import com.urcarcher.be.jjjh.entity.StoreEntity;
@@ -13,6 +12,8 @@ public interface PaymentService {
 	PaymentDTO readById(Long paymentId);
 	
 	void delete(Long paymentId);
+	
+	PaymentDTO readBycardId(Long cardId);
 	
 	// Entity -> DTO
 	default PaymentDTO entityToDTO(PaymentEntity entity) {
@@ -42,7 +43,7 @@ public interface PaymentService {
 				        .storeName(dto.getStoreName())
 				        .categoryCode(dto.getCategoryCode())
 				        .build())
-	            
+	           
 				.build();
 		return entity;
 	}

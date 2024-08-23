@@ -1,36 +1,104 @@
 package com.urcarcher.be.swimming.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 
+import com.urcarcher.be.kimyuri.CardEntity;
+import com.urcarcher.be.kimyuri.CardTypeEntity;
+import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
-import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
-import com.urcarcher.be.swimming.repository.ExchangeRepository;
 
+import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
+import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
+import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
+import com.urcarcher.be.swimming.repository.ExchangeRepository;
+import com.urcarcher.be.swimming.repository.ExchangeSetRepository;
+
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
-	final ExchangeRepository InfoRepo;
-	
-	// 소유한 카드 정보 조회
-	/*
-	@Override
-    public List<CardDTO> getList() {
-        List<CardEntity> entityList = (List<CardEntity>) InfoRepo.findAll();
 
-        List<CardDTO> dtoList = entityList.stream().map(entity -> entityToDto(entity))
-                .collect(Collectors.toList());
+	final ExchangeRepository exRepo;
+	final ExchangeSetRepository setRepo;
+
+	
+	// 카드 리스트 조회
+	@Override
+	public List<ExchangeCardDTO> getList(String memberId) {
+		List<Object[]> entityList = exRepo.findByMemberId(memberId);
+
+		
+		/*
+		List<CardDTO> dtoList = entityList.stream().map(entity -> cardEntityToDto(entity)).collect(Collectors.toList());
+		
+		entityList.forEach(arr -> {
+			CardEntity card = (CardEntity)arr[0];
+			CardTypeEntity cardType = (CardTypeEntity)arr[1];
+		
+			System.out.println(Arrays.toString(arr));
+		});
+		*/
+		
+		List<ExchangeCardDTO> dtoList = entityList.stream()
+				.map(arr -> {
+					// 오브젝트 타입의 배열이 들어오기 때문에 지정
+					CardEntity card = (CardEntity)arr[0];
+					CardTypeEntity type = (CardTypeEntity)arr[1];
+				
+					return cardEntityToDto(card, type);
+				})
+				.collect(Collectors.toList());
 
         return dtoList;
-    }
-    */
+	}
 	
-	// 바로 충전 입력
+	// 바로 환전
+	@Transactional
 	@Override
-	public void exchangeInsert(ExchangeInfoDTO infoDto) {
-		ExchangeInfoEntity newInfoEtt = InfoRepo.save(dtoToEntity(infoDto));
+	public void exchangeInsert(ExchangeInfoDTO infoDto, String memberId) {
+		// 환전할 카드 가져오기
+		CardEntity card = exRepo.findByCard(memberId, infoDto.getCardId());
 		
-		InfoRepo.save(newInfoEtt);
+		// 카드잔액 + 환전금액
+		if (card != null) {
+			Double plusCur = card.getCardBalance() + infoDto.getExCur().doubleValue();
+			exRepo.plusCurrency(card.getCardId(), plusCur);
+		}
+		
+		// 환전 내역에 추가
+		exRepo.save(infoDtoToEntity(infoDto));
+	}
+	
+	// 예약 내역 조회
+	@Override
+	public ExchangeSetDTO setDetail(Long cardId, String memberId) {
+		// 예약할 카드 가져오기
+		CardEntity card = exRepo.findByCard(memberId, cardId);
+		
+		ExchangeSetEntity entity = setRepo.findByCurSet(card.getCardId());
+		System.out.println("******************** entity 확인" + entity);
+		
+		if (entity == null) return null;
+		
+		return setEntityToDto(entity);
+	}
+
+	// 예약 환전
+	@Override
+	public void setInsert(ExchangeSetDTO setDto, String memberId) {
+		// 예약할 카드 가져오기
+		CardEntity card = exRepo.findByCard(memberId, setDto.getCardId());
+		setRepo.save(setDtoToEntity(setDto));
+	}
+
+	// 예약 내역 삭제
+	@Override
+	public void setDelete(Long setId) {
+		setRepo.deleteById(setId);
 	}
 }

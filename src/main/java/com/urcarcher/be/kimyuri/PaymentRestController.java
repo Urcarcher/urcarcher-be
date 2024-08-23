@@ -1,6 +1,7 @@
 package com.urcarcher.be.kimyuri;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -40,5 +41,12 @@ public class PaymentRestController {
 	String delete(@PathVariable("paymentId") Long paymentId) {
 		paymentService.delete(paymentId);
 		return "삭제작업";
+	}
+	
+	// 카드 관리 - 최근 결제 내역 가져오기
+	@PostMapping("/recentpayment")
+	PaymentDTO readByCardId(@RequestBody Map<String, String> requestBody) {
+		System.out.println(paymentService.readBycardId(Long.parseLong(requestBody.get("cardId"))));
+		return paymentService.readBycardId(Long.parseLong(requestBody.get("cardId")));
 	}
 }

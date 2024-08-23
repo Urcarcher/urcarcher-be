@@ -1,12 +1,9 @@
 package com.urcarcher.be.kimyuri;
-
 import java.time.LocalDateTime;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 @NoArgsConstructor
 @Builder
 @AllArgsConstructor
@@ -17,9 +14,8 @@ public class PaymentDTO {
 	LocalDateTime paymentDate;
 	
     Long cardId;
-    
+
     String storeId;
     String storeName;
-    
     String categoryCode;
 }

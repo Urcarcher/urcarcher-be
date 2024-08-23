@@ -27,10 +27,10 @@ import lombok.ToString;
 public class CourseCompletionEntity {
 	
 	@Id
-	@Column(name="certification_id",length = 10)
+	@Column(name="certification_id",length = 20)
 	private String certificationId;
 	
-	@Column (name="course_id",length = 10)
+	@Column (name="course_id",length = 20)
 	private String courseId;
 	
 	@Column(name="member_id")

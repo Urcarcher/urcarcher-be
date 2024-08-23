@@ -8,7 +8,10 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.urcarcher.be.blkwntr.auth.AuthorizedUser;
+import com.urcarcher.be.blkwntr.auth.MemberProvider;
+import com.urcarcher.be.blkwntr.auth.MemberRole;
 import com.urcarcher.be.blkwntr.auth.dto.OAuth2Profile;
+import com.urcarcher.be.blkwntr.auth.dto.OAuthNewRequestDTO;
 import com.urcarcher.be.blkwntr.auth.dto.TokenDTO;
 import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.blkwntr.repository.MemberRepository;
@@ -45,5 +48,22 @@ public class UrcarcherOAuth2Service extends DefaultOAuth2UserService {
 				.attributes(oAuth2UserAttributes)
 				.attributeName(userNameAttributeName)
 				.build();
+	}
+	
+	public Member oauthNew(OAuthNewRequestDTO oAuthNewRequestDTO) {
+		Member oauthNewMember = findByEmailAndProvider(oAuthNewRequestDTO.getEmail(), MemberProvider.valueOf(oAuthNewRequestDTO.getProvider()));
+		oauthNewMember.setGender(oAuthNewRequestDTO.getGender());
+		oauthNewMember.setInformationConsent(oAuthNewRequestDTO.getInformationConsent());
+		oauthNewMember.setLocationConsent(oAuthNewRequestDTO.getLocationConsent());
+		oauthNewMember.setMatchingConsent(oAuthNewRequestDTO.getMatchingConsent());
+		oauthNewMember.setNationality(oAuthNewRequestDTO.getNationality());
+		oauthNewMember.setPhoneNumber(oAuthNewRequestDTO.getPhoneNumber());
+		oauthNewMember.setRegistrationNumber(oAuthNewRequestDTO.getRegistrationNumber());
+		oauthNewMember.setRole(MemberRole.USER);
+		return memberRepository.save(oauthNewMember);
+	}
+	
+	private Member findByEmailAndProvider(String email, MemberProvider provider) {
+		return memberRepository.findByEmailAndProvider(email, provider).orElseThrow();
 	}
 }

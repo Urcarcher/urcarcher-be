@@ -4,6 +4,8 @@ import java.sql.Timestamp;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.urcarcher.be.kimyuri.CardEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,7 +14,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,25 +32,23 @@ public class ExchangeInfoEntity {
 	private Long exId; // 환전번호
 	
 	@Column(nullable = false)
-	private Long cardId; // 카드 ID (관계설정 후 삭제해야 함)
-	
-	@Column(nullable = false)
 	private Double exRate; // 적용환율
 	
 	@Column(nullable = false)
 	private Long exCur; // 환전금액
 	
 	@Column(nullable = false)
-	private Double exPay; // 결제금액
+
+	private Double exPay; // 결제금액 (원화)
 	
 	@CreationTimestamp
-	private Timestamp exDate; // 환전일시
+	private Timestamp exDate; // 환전일
 	
-	@JoinColumn(name = "SET_ID", nullable = true)
+	@JoinColumn(name = "set_id", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
-	ExchangeSetEntity exchangeSet;
+	ExchangeSetEntity exchangeSet; // 환전예약 table
 	
-//	@JoinColumn(name = "card_id")
-//	@ManyToOne
-//	CardEntity card;
+	@JoinColumn(name = "card_id")
+	@ManyToOne
+	CardEntity card; // 카드 table
 }
