@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,7 @@ public class ExchangeRestController {
 		String memberId = "bleakwinter";
 //		String memberId = "happy";
 
+
 		return exService.getList(memberId);
 	}
 
@@ -41,6 +44,7 @@ public class ExchangeRestController {
 	public String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
 		String memberId = "bleakwinter";
 //		String memberId = "happy";
+
 		exService.exchangeInsert(infoDto, memberId);
 
 		Long currency = infoDto.getExCur();
@@ -60,12 +64,10 @@ public class ExchangeRestController {
 		return exService.setDetail(cardId, memberId);
 	}
 	
-
 	// 예약 환전
 	@PostMapping("/rate/insert")
 	public void setInsert(@RequestBody ExchangeSetDTO setDto) {
 		String memberId = "bleakwinter";
-		
 //		System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
 		exService.setInsert(setDto, memberId);
 	}

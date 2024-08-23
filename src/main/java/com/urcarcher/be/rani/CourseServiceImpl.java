@@ -6,8 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.urcarcher.be.rani.VO.CertificationDTO;
+import com.urcarcher.be.rani.VO.CourseCategoryEntity;
+import com.urcarcher.be.rani.VO.CourseCertificationEntity;
 import com.urcarcher.be.rani.VO.CourseDTO;
 import com.urcarcher.be.rani.VO.PlaceDTO;
+import com.urcarcher.be.rani.repository.CertificationRepository;
 import com.urcarcher.be.rani.repository.CourseRepository;
 import com.urcarcher.be.rani.repository.PlaceRepository;
 
@@ -19,6 +23,9 @@ public class CourseServiceImpl implements CourseService{
 	
 	@Autowired
 	PlaceRepository placeRepo;
+	
+	@Autowired
+	CertificationRepository certifiRepo;
 	
 	@Override
 	public List<CourseDTO> getCourseList(){
@@ -33,4 +40,24 @@ public class CourseServiceImpl implements CourseService{
 				.collect(Collectors.toList());
 		return placeList;
 	}
+
+	@Override
+	public List<CertificationDTO> getCertification(String userId) {
+		List<CertificationDTO> certificationList = certifiRepo.findByMemberId(userId).stream().map(c->entityToDTO(c))
+				.collect(Collectors.toList());
+		return certificationList;
+	}
+
+	@Override
+	public void incrementViewCount(String courseId) {
+		System.out.println("업데이트할 코스:"  + courseId);
+		courseRepo.findById(courseId).ifPresent(course ->{
+			course.setViewCount(course.getViewCount() + 1);
+	        courseRepo.save(course); 
+	        System.out.println("조회!!" + course.getViewCount());
+	    });
+		
+	}
+	
+	
 }
