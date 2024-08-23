@@ -50,6 +50,8 @@ public class ExchangeSetEntity {
 	@CreationTimestamp
 	private Timestamp setUpdate; // 등록일
 	
+	private String setStatus; // 환전상태
+	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 
 			cascade = CascadeType.ALL,

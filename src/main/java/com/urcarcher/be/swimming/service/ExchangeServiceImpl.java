@@ -91,4 +91,10 @@ public class ExchangeServiceImpl implements ExchangeService {
 		CardEntity card = exRepo.findByCard(memberId, setDto.getCardId());
 		setRepo.save(setDtoToEntity(setDto));
 	}
+
+	// 예약 내역 삭제
+	@Override
+	public void setDelete(Long setId) {
+		setRepo.deleteById(setId);
+	}
 }

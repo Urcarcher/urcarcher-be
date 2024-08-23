@@ -24,6 +24,9 @@ public interface ExchangeService {
 	// 예약 환전
 	public void setInsert(ExchangeSetDTO setDto, String memberId);
 	
+	// 예약 내역 삭제
+	public void setDelete(Long setId);
+	
 	// 바로 환전 DTO -> Entity
 	default ExchangeInfoEntity infoDtoToEntity(ExchangeInfoDTO infoDto) {
 		Member memberEntity = Member.builder()
@@ -80,6 +83,7 @@ public interface ExchangeService {
 				.setPay(setDto.getSetPay())
 				.setDate(setDto.getSetDate())
 				.setUpdate(setDto.getSetUpdate())
+				.setStatus(setDto.getSetStatus())
 				.card(cardEntity)
 				.build();
 		
@@ -98,6 +102,7 @@ public interface ExchangeService {
 				.setPay(setEntity.getSetPay())
 				.setDate(setEntity.getSetDate())
 				.setUpdate(setEntity.getSetUpdate())
+				.setStatus(setEntity.getSetStatus())
 				.build();
 		
 		System.out.println("******************** setDto 확인 : " + setDto);

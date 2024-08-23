@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,6 +31,7 @@ public class ExchangeRestController {
 	@GetMapping("/list")
 	public List<ExchangeCardDTO> getList() {
 		String memberId = "bleakwinter";
+//		String memberId = "happy";
 
 		return exService.getList(memberId);
 	}
@@ -38,6 +40,7 @@ public class ExchangeRestController {
 	@PostMapping("/insert")
 	public String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
 		String memberId = "bleakwinter";
+//		String memberId = "happy";
 		exService.exchangeInsert(infoDto, memberId);
 
 		Long currency = infoDto.getExCur();
@@ -62,8 +65,14 @@ public class ExchangeRestController {
 	@PostMapping("/rate/insert")
 	public void setInsert(@RequestBody ExchangeSetDTO setDto) {
 		String memberId = "bleakwinter";
-		System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
-
+		
+//		System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
 		exService.setInsert(setDto, memberId);
+	}
+	
+	// 예약 내역 삭제
+	@DeleteMapping("/rate/delete/{setId}")
+	public void setDelete(@PathVariable("setId") Long setId) {
+		exService.setDelete(setId);
 	}
 }

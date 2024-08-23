@@ -21,4 +21,5 @@ public class ExchangeSetDTO {
 	private Double setPay; // 결제금액 (원화)
 	private LocalDate setDate; // 예약일
 	private Timestamp setUpdate; // 등록일
+	private String setStatus; // 환전상태
 }
