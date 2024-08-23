@@ -1,9 +1,11 @@
 package com.urcarcher.be.kimyuri;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.blkwntr.repository.MemberRepository;
@@ -31,6 +33,45 @@ public class CardServiceImpl implements CardService {
 //        CardEntity entity = dtoToEntity(dto, member, cardType);
 //        cardRepo.save(entity);
 //    }
+    
+    @Override
+    public boolean deleteCardWithPassword(Long cardId, String password) {
+        int deletedRows = cardRepo.deleteByCardIdAndPassword(cardId, password);
+        return deletedRows > 0;
+    }
+    
+    @Override
+    public boolean toggleCardStatus(Long cardId, Boolean isActive) {
+    	int result = cardRepo.updateCardStatus(cardId,isActive);
+    	return result > 0;
+    }
+    
+    @Override
+    public boolean checkPinNumber(Long cardId, String checkPinNumber) {
+    	boolean result = cardRepo.existsByCardIdAndCardPassword(cardId, checkPinNumber);
+    	return result;
+    }
+    
+    @Override
+    public boolean changePinNumber(Long cardId, String pinNumber) {
+    	int result = cardRepo.updateCardPassword(cardId, pinNumber);
+    	return result>0;
+    }
+    
+    @Override
+    public boolean chargeAmount(Long cardId, Double cardBalance) {
+    	int rusult = cardRepo.updateCardBalance(cardId, cardBalance);
+    	return rusult > 0;
+    }
+    
+    @Override
+    public boolean immediatePayment(Long cardId) {
+    	int rusult = cardRepo.updateCardBalance(cardId);
+    	return rusult > 0;
+    }
+    
+    
+    
     @Override
     public void create(CardDTO dto) {
         Member member = memberRepo.findById(dto.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
