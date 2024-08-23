@@ -29,6 +29,23 @@ public class JwtCookieProvider {
 		return cookieForRefreshToken;
 	}
 	
+	public Cookie deleteCookieForAccessToken() {
+		Cookie deleteForAccessToken = new Cookie("URCARCHER_ACCESS_TOKEN", "");
+		deleteForAccessToken.setPath("/");
+		deleteForAccessToken.setMaxAge(0);
+		return deleteForAccessToken;
+	}
+	
+	public Cookie deleteCookieForRefreshToken() {
+		Cookie deleteForRefreshToken = new Cookie("URCARCHER_REFRESH_TOKEN", "");
+		deleteForRefreshToken.setHttpOnly(true);
+		deleteForRefreshToken.setSecure(true);
+		deleteForRefreshToken.setAttribute("SameSite", "None");
+		deleteForRefreshToken.setPath("/");
+		deleteForRefreshToken.setMaxAge(0);
+		return deleteForRefreshToken;
+	}
+	
 	public String getRefreshToken(HttpServletRequest request) {
 		Cookie[] cookies = request.getCookies();
 		if(cookies != null) {
