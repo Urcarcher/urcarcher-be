@@ -30,7 +30,7 @@ import lombok.ToString;
 public class CourseCertificationEntity {
 	
 	@Id
-	@Column (name="certification_id",length = 20)
+	@Column (name="certification_id",length = 50)
 	private String certificationId;
 	
 	@Column (name="member_id")
@@ -43,7 +43,7 @@ public class CourseCertificationEntity {
 	private String courseId;
 	
 	@CreationTimestamp
-	@Column (name="certification_date")
+	@Column (name="certification_date", nullable = false)
 	private Date certificationDate;	
 	
 	@ManyToOne

@@ -44,6 +44,12 @@ public class CourseCategoryEntity {
 	@Column (name="region",length = 5)
 	private String region;
 	
+	@Column (name="view_count")
+	private Integer viewCount;
+	
+	@Column (name="auth_count")
+	private Integer authCount; 
+	
 	@OneToMany(mappedBy = "courseCategory")
     private List<TravelCourseEntity> travelCourses;
 	

@@ -10,4 +10,5 @@ import com.urcarcher.be.rani.VO.TravelCourseEntity;
 
 public interface CourseRepository extends JpaRepository<CourseCategoryEntity, String>{
 	
+	
 }
