@@ -18,8 +18,8 @@ public class PaymentDTO {
 	
     Long cardId;
     
-    String store_id;
-    String store_name;
+    String storeId;
+    String storeName;
     
-    String category_code;
+    String categoryCode;
 }
