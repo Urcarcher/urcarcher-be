@@ -1,6 +1,8 @@
 package com.urcarcher.be.kimyuri;
 import java.util.List;
+
 import com.urcarcher.be.jjjh.entity.StoreEntity;
+
 public interface PaymentService {
 	
 	void insert(PaymentDTO dto);
