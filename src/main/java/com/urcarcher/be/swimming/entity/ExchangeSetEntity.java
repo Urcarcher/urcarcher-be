@@ -1,13 +1,11 @@
 package com.urcarcher.be.swimming.entity;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.urcarcher.be.kimyuri.CardEntity;
 
 import jakarta.persistence.CascadeType;
@@ -46,12 +44,13 @@ public class ExchangeSetEntity {
 	@Column(nullable = false)
 	private Double setPay; // 결제금액 (원화)
 	
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
 	@Column(nullable = false)
-	private LocalDateTime setDate; // 예약일
+	private LocalDate setDate; // 예약일
 	
 	@CreationTimestamp
 	private Timestamp setUpdate; // 등록일
+	
+	private String setStatus; // 환전상태
 	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 

@@ -1,7 +1,7 @@
 package com.urcarcher.be.swimming.dto;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,6 +19,7 @@ public class ExchangeSetDTO {
 	private Double setRate; // 예약환율
 	private Long setCur; // 예약금액
 	private Double setPay; // 결제금액 (원화)
-	private LocalDateTime setDate; // 예약일
+	private LocalDate setDate; // 예약일
 	private Timestamp setUpdate; // 등록일
+	private String setStatus; // 환전상태
 }
