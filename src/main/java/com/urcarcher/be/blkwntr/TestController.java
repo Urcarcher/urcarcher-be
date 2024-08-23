@@ -8,6 +8,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import org.springframework.web.bind.annotation.RequestBody;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +23,6 @@ import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.blkwntr.exrate.ExchangeType;
 import com.urcarcher.be.blkwntr.exrate.service.ExchangeRateService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
 
@@ -34,6 +37,7 @@ public class TestController {
 	
 	@GetMapping("/test")
 	Member test(@AuthenticationPrincipal UserDetails userDetails) {
+		System.out.println(userDetails.getUsername());
 		return vanillaAuthorizingService.getMemberByAuth(userDetails);
 	}
 	
@@ -42,6 +46,12 @@ public class TestController {
 		AuthorizedUser authorizedUser = (AuthorizedUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		System.out.println(authorizedUser);
 		return authorizedUser.getMember();
+	}
+	
+	@PostMapping("/test3")
+	Member test3(@RequestBody TestDTO test, @AuthenticationPrincipal UserDetails userDetails) {
+		System.out.println(userDetails.getUsername() + test.getCourseId() + test.getPlaceId());
+		return null;
 	}
 	
 	@GetMapping("/vali")
@@ -60,6 +70,7 @@ public class TestController {
 	JSONObject test5() {
 		return ExchangeRateService.getRateInfoByExType(ExchangeType.USD);
 	}
+
 }
 
 

@@ -1,8 +1,11 @@
 package com.urcarcher.be.rani;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
+import com.urcarcher.be.rani.VO.CertificationDTO;
 import com.urcarcher.be.rani.VO.CourseCategoryEntity;
+import com.urcarcher.be.rani.VO.CourseCertificationEntity;
 import com.urcarcher.be.rani.VO.CourseDTO;
 import com.urcarcher.be.rani.VO.PlaceDTO;
 import com.urcarcher.be.rani.VO.TravelCourseEntity;
@@ -12,9 +15,20 @@ public interface CourseService {
 	
 	List<CourseDTO> getCourseList();
 	List<PlaceDTO> getPlaceList(String courseId);
+	List<CertificationDTO> getCertification(String userId);
+	void incrementViewCount(String courseId);
 	
 	//DTO -> Entity 
-	
+	default CourseCertificationEntity dtoToEntity (CertificationDTO dto) {
+		CourseCertificationEntity entity = CourseCertificationEntity.builder()
+				.certificationId(dto.getMemberId() + "-" + dto.getPlaceId())
+				.memberId(dto.getMemberId())
+				.placeId(dto.getPlaceId())
+				.courseId(dto.getCourseId())
+				.build();
+		return entity;
+		
+	}
 	
 	//Entity -> DTO 
 	default CourseDTO entityToDTO(CourseCategoryEntity entity) {
@@ -22,6 +36,7 @@ public interface CourseService {
 				.courseId(entity.getCourseId())
 				.courseName(entity.getCourseName())
 				.region(entity.getRegion())
+				.courseImg(entity.getCourseImg())
 				.build();
 		return dto;
 	}
@@ -39,4 +54,19 @@ public interface CourseService {
 				.build();
 		return dto;
 	}
+	
+	default CertificationDTO entityToDTO (CourseCertificationEntity entity) {
+		CertificationDTO dto = CertificationDTO.builder()
+				.certificationId(entity.getCertificationId())
+				.courseId(entity.getCourseId())
+				.placeId(entity.getPlaceId())
+				.memberId(entity.getMemberId())
+				.certificationDate(entity.getCertificationDate())
+				.build();
+		return dto;
+	}
+	
+	
+	
+	
 }

@@ -1,5 +1,6 @@
 package com.urcarcher.be;
 
+import java.sql.Date;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,18 +22,22 @@ public class HomeService{
 		  //System.out.println("=============@Service==========");
 		 
 		  HomeCardDTO dto = entityToHomeCardDTO(map);
-	        return dto;
+	      return dto;
 	  }
 
 	  public HomeCardDTO entityToHomeCardDTO(Map<String, Object> map) {
 		  HomeCardDTO card =  HomeCardDTO.builder().build();
 	       for(String key:map.keySet()) {
 	    	    if(key.equals("card_account")) card.setCardAccount((String)map.get(key));
+	    	    if(key.equals("card_balance")) card.setCardBalance((Double) map.get(key));
 	    	    if(key.equals("card_name")) card.setCardName((String)map.get(key));
 	    	    if(key.equals("card_id")) card.setCardId((Long)map.get(key));
 	    	    if(key.equals("card_usage")) card.setCardUsage((String)map.get(key));
 	    	    if(key.equals("total_payment")) card.setTotalPayment((Double)map.get(key));
-	    	    if(key.equals("card_balance")) card.setCardBalance((Double)map.get(key));
+	    	    if(key.equals("card_number")) card.setCard_number((String)map.get(key));
+	    	    if(key.equals("expiration_date")) card.setExpiration_date((Date) map.get(key));
+	    	    if(key.equals("name")) card.setName((String)map.get(key));
+	    	    
 	       }
 	       return card;
 	    }

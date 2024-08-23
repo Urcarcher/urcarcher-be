@@ -1,6 +1,9 @@
 package com.urcarcher.be.swimming.entity;
 
 import java.sql.Timestamp;
+
+import java.time.LocalDate;
+
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,26 +36,32 @@ public class ExchangeSetEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long setId; // 예약번호
-	
-	// @Column(nullable = false)
-	// private Long cardId; // 카드 ID (관계설정 후 삭제해야 함)
-	
+
 	@Column(nullable = false)
-	private Double setRate; // 예약환율
+	private Double setRate; // 예약환율 (시가)
 	
 	@Column(nullable = false)
 	private Long setCur; // 예약금액
 	
+	@Column(nullable = false)
+	private Double setPay; // 결제금액 (원화)
+	
+	@Column(nullable = false)
+	private LocalDate setDate; // 예약일
+	
 	@CreationTimestamp
-	private Timestamp setDate; // 예약일시
+	private Timestamp setUpdate; // 등록일
+	
+	private String setStatus; // 환전상태
+
 	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 
 			cascade = CascadeType.ALL,
 			fetch = FetchType.LAZY)
-	List<ExchangeInfoEntity> infoList;
+	List<ExchangeInfoEntity> infoList; // 환전내역 리스트
 	
 	@JoinColumn(name = "card_id")
 	@OneToOne
-	CardEntity card;
+	CardEntity card; // 카드 table
 }

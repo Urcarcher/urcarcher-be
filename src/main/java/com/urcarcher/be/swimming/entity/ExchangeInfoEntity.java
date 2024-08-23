@@ -31,9 +31,6 @@ public class ExchangeInfoEntity {
 	@Id
 	private Long exId; // 환전번호
 	
-//	@Column(nullable = false)
-//	private Long cardId; // 카드 ID (관계설정 후 삭제해야 함)
-	
 	@Column(nullable = false)
 	private Double exRate; // 적용환율
 	
@@ -41,16 +38,17 @@ public class ExchangeInfoEntity {
 	private Long exCur; // 환전금액
 	
 	@Column(nullable = false)
-	private Double exPay; // 결제금액
+
+	private Double exPay; // 결제금액 (원화)
 	
 	@CreationTimestamp
-	private Timestamp exDate; // 환전일시
+	private Timestamp exDate; // 환전일
 	
-	@JoinColumn(name = "SET_ID", nullable = true)
+	@JoinColumn(name = "set_id", nullable = true)
 	@ManyToOne(fetch = FetchType.LAZY)
-	ExchangeSetEntity exchangeSet;
+	ExchangeSetEntity exchangeSet; // 환전예약 table
 	
 	@JoinColumn(name = "card_id")
 	@ManyToOne
-	CardEntity card;
+	CardEntity card; // 카드 table
 }

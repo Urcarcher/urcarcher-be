@@ -7,9 +7,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,8 +21,14 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.urcarcher.be.blkwntr.TestDTO;
+import com.urcarcher.be.blkwntr.entity.Member;
+import com.urcarcher.be.rani.VO.CertificationDTO;
+import com.urcarcher.be.rani.VO.CourseCertificationEntity;
 import com.urcarcher.be.rani.VO.CourseDTO;
+import com.urcarcher.be.rani.VO.PlaceAndCertificationDTO;
 import com.urcarcher.be.rani.VO.PlaceDTO;
+import com.urcarcher.be.rani.repository.CertificationRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -31,26 +40,34 @@ public class TravelCourseController {
 	@Autowired
 	CourseService courseService;
 	
+
+	
+	
 	@GetMapping("/list")
 	List<CourseDTO> courseList(){
 		return courseService.getCourseList();
 	}
 	
 	@GetMapping("/{courseId}")
-	List<PlaceDTO> placeList(@PathVariable("courseId") String courseId){
-		
+	PlaceAndCertificationDTO placeList(@PathVariable("courseId") String courseId, @AuthenticationPrincipal UserDetails userDetails){
+		courseService.incrementViewCount(courseId);
+		String userId = userDetails.getUsername();
 		List<PlaceDTO> places = courseService.getPlaceList(courseId);
-	    ObjectMapper mapper = new ObjectMapper();
-	    try {
-	        String jsonResult = mapper.writeValueAsString(places);
-	        System.out.println(jsonResult);
-	    } catch (JsonProcessingException e) {
-	        e.printStackTrace();
-	    }
-	    return places;
+		List<CertificationDTO> certifications = courseService.getCertification(userId);
+		PlaceAndCertificationDTO response = new PlaceAndCertificationDTO();
+	    response.setPlaces(places);
+	    response.setCertifications(certifications);
+	    return response;
 	    
-//		System.out.println(courseService.getPlaceList(courseId).toString());
-//		return courseService.getPlaceList(courseId);
+
+	}
+	
+	@PostMapping("/certification")
+	void certification(@RequestBody CertificationDTO certification, @AuthenticationPrincipal UserDetails userDetails) {
+		String userId = userDetails.getUsername();
+		certification.setMemberId(userId);
+		
+		
 	}
 	
 	@Value("${google.api.key}")
