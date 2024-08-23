@@ -1,9 +1,6 @@
 package com.urcarcher.be.kimyuri;
-
 import java.util.List;
-
 import com.urcarcher.be.jjjh.entity.StoreEntity;
-
 public interface PaymentService {
 	
 	void insert(PaymentDTO dto);
@@ -14,6 +11,8 @@ public interface PaymentService {
 	
 	void delete(Long paymentId);
 	
+	PaymentDTO readBycardId(Long cardId);
+	
 	// Entity -> DTO
 	default PaymentDTO entityToDTO(PaymentEntity entity) {
 		PaymentDTO dto = PaymentDTO.builder()
@@ -21,9 +20,9 @@ public interface PaymentService {
 				.paymentPrice(entity.getPaymentPrice())
 				.paymentDate(entity.getPaymentDate())
                 .cardId(entity.getCard().getCardId())
-                .store_id(entity.getStore().getStoreId())
-				.store_name(entity.getStore().getStoreName())
-				.category_code(entity.getStore().getCategoryCode())
+                .storeId(entity.getStore().getStoreId())
+				.storeName(entity.getStore().getStoreName())
+				.categoryCode(entity.getStore().getCategoryCode())
 				.build();
 		return dto;
 	}
@@ -31,18 +30,22 @@ public interface PaymentService {
 	
 	// DTO -> Entity
 	default PaymentEntity dtoToEntity(PaymentDTO dto) {
+		
 		PaymentEntity entity = PaymentEntity.builder()
 				.paymentId(dto.getPaymentId())
 				.paymentPrice(dto.getPaymentPrice())
 				.paymentDate(dto.getPaymentDate())
 				.card(CardEntity.builder().cardId(dto.getCardId()).build())
 				.store(StoreEntity.builder()
-				        .storeId(dto.getStore_id())
-				        .storeName(dto.getStore_name())
-				        .categoryCode(dto.getCategory_code())
+				        .storeId(dto.getStoreId())
+				        .storeName(dto.getStoreName())
+				        .categoryCode(dto.getCategoryCode())
 				        .build())
+	           
 				.build();
 		return entity;
 	}
+	
+	
+	
 }
-

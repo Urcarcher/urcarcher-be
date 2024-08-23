@@ -3,10 +3,12 @@ package com.urcarcher.be.swimming.service;
 import java.util.List;
 
 import com.urcarcher.be.blkwntr.entity.Member;
+
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.kimyuri.CardTypeEntity;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
+
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
 import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
@@ -29,6 +31,7 @@ public interface ExchangeService {
 	
 	// 바로 환전 DTO -> Entity
 	default ExchangeInfoEntity infoDtoToEntity(ExchangeInfoDTO infoDto) {
+
 		Member memberEntity = Member.builder()
 				.memberId("bleakwinter")
 				.build();
@@ -108,7 +111,7 @@ public interface ExchangeService {
 		System.out.println("******************** setDto 확인 : " + setDto);
 		return setDto;
 	}
-	
+
 	// 카드 리스트 조회 Entity -> DTO
 	default ExchangeCardDTO cardEntityToDto(CardEntity card, CardTypeEntity type) {
 		ExchangeCardDTO dto = ExchangeCardDTO.builder()

@@ -1,6 +1,9 @@
 package com.urcarcher.be.kimyuri;
 
 import java.util.List;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.urcarcher.be.blkwntr.entity.Member;
 
@@ -21,7 +24,18 @@ public interface CardService {
 
     // 삭제
     void delete(Long cardId);
-
+    
+    boolean deleteCardWithPassword(Long cardId, String password);
+    
+    boolean toggleCardStatus(Long cardId, Boolean isActive);
+    
+    boolean checkPinNumber(Long cardId, String checkPinNumber);
+    
+    boolean changePinNumber(Long cardId, String pinNumber);
+    
+    boolean chargeAmount(Long cardId, Double cardBalance);
+    
+    boolean immediatePayment(Long cardId);
     // Entity -> DTO
     default CardDTO entityToDTO(CardEntity entity) {
         CardDTO dto = CardDTO.builder()
@@ -70,4 +84,6 @@ public interface CardService {
                 .build();
         return entity;
     }
+    
+    
 }

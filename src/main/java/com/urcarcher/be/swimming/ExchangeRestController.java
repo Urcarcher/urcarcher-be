@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
+
 import com.urcarcher.be.swimming.service.ExchangeService;
 
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,6 @@ public class ExchangeRestController {
 	public List<ExchangeCardDTO> getList() {
 		String memberId = "bleakwinter";
 //		String memberId = "happy";
-
 
 		return exService.getList(memberId);
 	}

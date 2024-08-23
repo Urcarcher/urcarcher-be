@@ -1,7 +1,9 @@
 package com.urcarcher.be.swimming.entity;
 
 import java.sql.Timestamp;
+
 import java.time.LocalDate;
+
 import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,7 +36,7 @@ public class ExchangeSetEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id
 	private Long setId; // 예약번호
-	
+
 	@Column(nullable = false)
 	private Double setRate; // 예약환율 (시가)
 	
@@ -51,6 +53,7 @@ public class ExchangeSetEntity {
 	private Timestamp setUpdate; // 등록일
 	
 	private String setStatus; // 환전상태
+
 	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 

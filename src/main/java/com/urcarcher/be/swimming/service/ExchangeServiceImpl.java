@@ -9,6 +9,7 @@ import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.kimyuri.CardTypeEntity;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
+
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
 import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
@@ -21,13 +22,16 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class ExchangeServiceImpl implements ExchangeService {
+
 	final ExchangeRepository exRepo;
 	final ExchangeSetRepository setRepo;
+
 	
 	// 카드 리스트 조회
 	@Override
 	public List<ExchangeCardDTO> getList(String memberId) {
 		List<Object[]> entityList = exRepo.findByMemberId(memberId);
+
 		
 		/*
 		List<CardDTO> dtoList = entityList.stream().map(entity -> cardEntityToDto(entity)).collect(Collectors.toList());
@@ -45,7 +49,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 					// 오브젝트 타입의 배열이 들어오기 때문에 지정
 					CardEntity card = (CardEntity)arr[0];
 					CardTypeEntity type = (CardTypeEntity)arr[1];
-					
+				
 					return cardEntityToDto(card, type);
 				})
 				.collect(Collectors.toList());

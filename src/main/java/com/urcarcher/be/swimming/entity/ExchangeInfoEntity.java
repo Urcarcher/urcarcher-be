@@ -38,6 +38,7 @@ public class ExchangeInfoEntity {
 	private Long exCur; // 환전금액
 	
 	@Column(nullable = false)
+
 	private Double exPay; // 결제금액 (원화)
 	
 	@CreationTimestamp
