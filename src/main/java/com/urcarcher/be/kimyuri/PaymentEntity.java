@@ -32,6 +32,9 @@ public class PaymentEntity {
 	Double paymentPrice;
 	@Column(nullable = false)
 	LocalDateTime paymentDate;
+	
+    @Column(nullable = false)
+    boolean isInstantPayment;
 
 	@ManyToOne
 	@JoinColumn(name = "store_id", nullable = false)
@@ -40,5 +43,6 @@ public class PaymentEntity {
 	@ManyToOne
 	@JoinColumn(name = "card_id", nullable = false)
 	CardEntity card;
+	
 
 }

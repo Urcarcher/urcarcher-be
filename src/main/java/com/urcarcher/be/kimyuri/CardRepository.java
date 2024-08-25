@@ -1,5 +1,7 @@
 package com.urcarcher.be.kimyuri;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -33,7 +35,10 @@ public interface CardRepository extends JpaRepository<CardEntity, Long>{
 	
 	@Modifying
 	@Transactional
-	@Query("UPDATE CardEntity c SET c.cardBalance = 0 WHERE c.cardId = :cardId")
-	int updateCardBalance(@Param("cardId") Long cardId);
+	@Query("UPDATE CardEntity c SET c.cardBalance = c.cardBalance - :cardBalance WHERE c.cardId = :cardId")
+	int subtractFromCardBalance(@Param("cardId") Long cardId, @Param("cardBalance") Double cardBalance);
 	
+	
+    @Query("SELECT c FROM CardEntity c WHERE c.member.memberId = :memberId")
+    List<CardEntity> findByMemberId(@Param("memberId") String memberId);
 }

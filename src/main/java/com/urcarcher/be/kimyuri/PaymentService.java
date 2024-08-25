@@ -1,4 +1,5 @@
 package com.urcarcher.be.kimyuri;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.urcarcher.be.jjjh.entity.StoreEntity;
@@ -14,6 +15,11 @@ public interface PaymentService {
 	void delete(Long paymentId);
 	
 	PaymentDTO readBycardId(Long cardId);
+	
+	Double detailPayment(Long cardId, String paymentDate);
+	
+	Boolean immediatePayment(Long cardId, String paymentDate);
+	
 	
 	// Entity -> DTO
 	default PaymentDTO entityToDTO(PaymentEntity entity) {
