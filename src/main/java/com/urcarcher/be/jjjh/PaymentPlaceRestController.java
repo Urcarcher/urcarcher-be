@@ -28,9 +28,8 @@ public class PaymentPlaceRestController {
 	
 	//특정 회원의 한 달간 결제 내역 중 카테고리 정보
 	@GetMapping("/categories")
-    public ResponseEntity<List<StoreCategoryDTO>> getCategories() {//@RequestParam String memberId
-	    
-		String memberId = "bleakwinter"; 
+    public ResponseEntity<List<StoreCategoryDTO>> getCategories(@RequestParam("memberId") String memberId) {
+		System.out.println("memberId:"+ memberId);
 	    
 	    List<StoreCategoryDTO> categories = storeService.getMostUsedCategories(memberId);
         return ResponseEntity.ok(categories);  // JSON 형태로 반환됨
@@ -38,18 +37,17 @@ public class PaymentPlaceRestController {
 	
 	//특정 회원의 한 달간 결제 내역 중 상위 3개 카테고리
 	@GetMapping("/top-categories")
-    public ResponseEntity<List<StoreCategoryDTO>> getTopCategories() {//@RequestParam String memberId
-	    
-		String memberId = "bleakwinter"; 
+    public ResponseEntity<List<StoreCategoryDTO>> getTopCategories(@RequestParam("memberId") String memberId) {
+	    System.out.println("memberId:"+ memberId);
 	    
 	    List<StoreCategoryDTO> categories = storeService.findTopCategoriesByMemberId(memberId);
         return ResponseEntity.ok(categories);  // JSON 형태로 반환됨
     }
 	
    @GetMapping("/best-store")
-    public List<StoreWithCountDTO> getMostUsedStoresExcludingMember() { //@RequestParam String memberId
+    public List<StoreWithCountDTO> getMostUsedStoresExcludingMember(@RequestParam("memberId") String memberId) { 
 	   
-	   	String memberId = "bleakwinter"; 
+	   System.out.println("memberId:"+ memberId);
 	   	
         return storeService.getMostUsedStoresExcludingMember(memberId);
     }

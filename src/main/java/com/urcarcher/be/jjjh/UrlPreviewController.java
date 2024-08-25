@@ -33,10 +33,6 @@ public class UrlPreviewController {
 	@GetMapping("/url")
 	public LinkPreviewDTO getUrlPreview(@RequestParam("url") String url) throws Exception {
         try {
-        	// 넘어오는 url 형태 : http://place.map.kakao.com/2040780653
-        	// 수정 할 url 형태 : https://place.map.kakao.com/main/v/2040780653
-        	// 얻어야 하는 이미지 url : http://t1.daumcdn.net/place/7440664029DC46ABB5849413E1F011DF
-        	
         	// 원래 URL에서 https 수정, /main/v/ 추가
         	url = transformUrl(url);
         	// Jsoup을 사용
@@ -55,6 +51,10 @@ public class UrlPreviewController {
             return new LinkPreviewDTO("실패");
         }
     }
+	// 넘어오는 url 형태 : http://place.map.kakao.com/2040780653
+	// 수정 할 url 형태 : https://place.map.kakao.com/main/v/2040780653
+	// 얻어야 하는 이미지 url : http://t1.daumcdn.net/place/7440664029DC46ABB5849413E1F011DF
+	
 	
 	 // URL 변환 함수
     private String transformUrl(String originalUrl) {
