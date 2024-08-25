@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.urcarcher.be.blkwntr.exrate.dto.ExchangeDTO;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
@@ -76,5 +77,19 @@ public class ExchangeRestController {
 	@DeleteMapping("/rate/delete/{setId}")
 	public void setDelete(@PathVariable("setId") Long setId) {
 		exService.setDelete(setId);
+	}
+	
+	// 환전 내역 전체 조회
+	@GetMapping("/list/{cardId}")
+	public List<ExchangeInfoDTO> infoList(@PathVariable("cardId") Long cardId) {
+		String memberID = "bleakwinter";
+		
+		return exService.infoList(cardId, memberID);
+	}
+	
+	// 환전 내역 상세 조회
+	@GetMapping("/detail/{exId}")
+	public ExchangeInfoDTO infoDetail(@PathVariable("exId") Long exId) {
+		return exService.infoDetail(exId);
 	}
 }
