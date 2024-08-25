@@ -51,9 +51,16 @@ public class TravelCourseController {
 	@GetMapping("/{courseId}")
 	PlaceAndCertificationDTO placeList(@PathVariable("courseId") String courseId, @AuthenticationPrincipal UserDetails userDetails){
 		courseService.incrementViewCount(courseId);
-		String userId = userDetails.getUsername();
+		List<CertificationDTO> certifications;
+		if(userDetails == null) {
+			certifications = null;
+		}
+		else {
+			String userId = userDetails.getUsername();
+				certifications = courseService.getCertification(userId);
+		}
+		
 		List<PlaceDTO> places = courseService.getPlaceList(courseId);
-		List<CertificationDTO> certifications = courseService.getCertification(userId);
 		PlaceAndCertificationDTO response = new PlaceAndCertificationDTO();
 	    response.setPlaces(places);
 	    response.setCertifications(certifications);
@@ -66,6 +73,8 @@ public class TravelCourseController {
 	void certification(@RequestBody CertificationDTO certification, @AuthenticationPrincipal UserDetails userDetails) {
 		String userId = userDetails.getUsername();
 		certification.setMemberId(userId);
+		CourseCertificationEntity entity = courseService.dtoToEntity(certification);
+		courseService.saveCertification(entity);
 		
 		
 	}

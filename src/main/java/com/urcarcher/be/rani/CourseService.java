@@ -17,6 +17,7 @@ public interface CourseService {
 	List<PlaceDTO> getPlaceList(String courseId);
 	List<CertificationDTO> getCertification(String userId);
 	void incrementViewCount(String courseId);
+	void saveCertification(CourseCertificationEntity entity);
 	
 	//DTO -> Entity 
 	default CourseCertificationEntity dtoToEntity (CertificationDTO dto) {
