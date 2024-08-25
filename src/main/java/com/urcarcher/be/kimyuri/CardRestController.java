@@ -131,16 +131,18 @@ public class CardRestController {
 	 
 	
 	// 카드 신청시 회원 기본 정보 불러오기(이름, 휴대전화번호, 주민번호)
-	 final MemberRepository memberRepository;
-
-    @GetMapping("/{memberId}")
-    public MemberDTO getMemberInfo(@PathVariable("memberId") String memberId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
-        return MemberDTO.builder()
-                .memberId(member.getMemberId())
-                .name(member.getName())
-                //.dateOfBirth(member.getDateOfBirth())
-                .phoneNumber(member.getPhoneNumber())
-                .build();
-    }
+//	 final MemberRepository memberRepository;
+//
+//    @GetMapping("/{memberId}")
+//    public MemberDTO getMemberInfo(@PathVariable("memberId") String memberId) {
+//        Member member = memberRepository.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
+//        return MemberDTO.builder()
+//                .memberId(member.getMemberId())
+//                .name(member.getName())
+//                .phoneNumber(member.getPhoneNumber())
+//                .registrationNumber(member.getRegistrationNumber())
+//                .build();
+//    }
+    
+    
 }
