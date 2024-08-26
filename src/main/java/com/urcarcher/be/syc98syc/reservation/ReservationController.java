@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,62 +62,56 @@ public class ReservationController {
 //                  .append("&openrun=").append(openrun)
 //                  .append("&newsql=").append(newsql);
 
-        
-
         try {
             URI uri = new URI(urlBuilder.toString());
             RestTemplate restTemplate = new RestTemplate();
-            String response = restTemplate.getForObject(uri, String.class);
-            // test
-            System.out.println(response);
-            System.out.println("URI: "+ uri);
-            logger.info("API Response: {}", response);
-            return response;
+            String xmlResponse = restTemplate.getForObject(uri, String.class);
+
+            // XML을 JSON으로 변환
+            XmlMapper xmlMapper = new XmlMapper();
+            JsonNode jsonNode = xmlMapper.readTree(xmlResponse);
+            String jsonResponse = jsonNode.toString();
+
+            logger.info("API Response: {}", jsonResponse);
+            return jsonResponse;
         } catch (URISyntaxException e) {
-            System.out.println("err: ");
             logger.error("Invalid URI syntax", e);
             return "Error creating URI: " + e.getMessage();
         } catch (Exception e) {
-            System.out.println("er2r: ");
             logger.error("Error fetching tour information", e);
             return "Error fetching tour information: " + e.getMessage();
         }
     }
     
  // 새로운 세부 정보 조회 엔드포인트
-//    @GetMapping("/tour-detail")
-//    public String getTourDetail(
-//            @RequestParam(value = "contentId") String contentId,
-//            @RequestParam(value = "MobileOS", defaultValue = "ETC") String mobileOS,
-//            @RequestParam(value = "MobileApp", defaultValue = "AppTest") String mobileApp,
-//            @RequestParam(value = "_type", defaultValue = "json") String type) {
-//
-//        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B551011/KorService1/detailCommon1?");
-//        urlBuilder.append("serviceKey=").append(serviceKey)
-//                  .append("&contentId=").append(contentId)
-//                  .append("&MobileOS=").append(mobileOS)
-//                  .append("&MobileApp=").append(mobileApp)
-//                  .append("&_type=").append(type)
-//                  .append("&defaultYN=Y")
-//                  .append("&firstImageYN=Y")
-//                  .append("&areacodeYN=Y")
-//                  .append("&catcodeYN=Y")
-//                  .append("&addrinfoYN=Y")
-//                  .append("&mapinfoYN=Y")
-//                  .append("&overviewYN=Y");
-//
-//        try {
-//            URI uri = new URI(urlBuilder.toString());
-//            RestTemplate restTemplate = new RestTemplate();
-//            String response = restTemplate.getForObject(uri, String.class);
-//            logger.info("API Response: {}", response);
-//            return response;
-//        } catch (URISyntaxException e) {
-//            logger.error("Invalid URI syntax", e);
-//            return "Error creating URI: " + e.getMessage();
-//        } catch (Exception e) {
-//            logger.error("Error fetching tour detail", e);
-//            return "Error fetching tour detail: " + e.getMessage();
-//        }
-//    }
+    @GetMapping("/reservation-detail")
+    public String getTourDetail(
+            @RequestParam(value = "mt20id", defaultValue = "PF132236") String mt20id,
+            @RequestParam(value = "newsql", defaultValue = "Y") String newsql){
+
+        StringBuilder urlBuilder = new StringBuilder("https://www.kopis.or.kr/openApi/restful/pblprfr/");
+        urlBuilder.append(mt20id)
+        			.append("?service=").append(serviceKey)
+                  .append("&newsql=").append(newsql);
+
+        try {
+            URI uri = new URI(urlBuilder.toString());
+            RestTemplate restTemplate = new RestTemplate();
+            String xmlResponse = restTemplate.getForObject(uri, String.class);
+
+            // XML을 JSON으로 변환
+            XmlMapper xmlMapper = new XmlMapper();
+            JsonNode jsonNode = xmlMapper.readTree(xmlResponse);
+            String jsonResponse = jsonNode.toString();
+
+            logger.info("API Response: {}", jsonResponse);
+            return jsonResponse;
+        } catch (URISyntaxException e) {
+            logger.error("Invalid URI syntax", e);
+            return "Error creating URI: " + e.getMessage();
+        } catch (Exception e) {
+            logger.error("Error fetching tour information", e);
+            return "Error fetching tour information: " + e.getMessage();
+        }
+    }
 }
