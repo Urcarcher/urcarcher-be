@@ -6,12 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
 
 import jakarta.transaction.Transactional;
 
 public interface ExchangeRepository extends JpaRepository<ExchangeInfoEntity, Long> {
+	// 로그인 유저 국적 조회
+	@Query("SELECT m FROM Member m"
+			+ " WHERE m.memberId = ?1")
+	Member findMember(String memberId);
+	
 	// 카드 리스트 조회
 	@Query("SELECT c, ct FROM CardEntity c"
 			+ " JOIN Member m on (c.member = m)"

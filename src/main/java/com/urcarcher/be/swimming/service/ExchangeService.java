@@ -3,17 +3,19 @@ package com.urcarcher.be.swimming.service;
 import java.util.List;
 
 import com.urcarcher.be.blkwntr.entity.Member;
-
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.kimyuri.CardTypeEntity;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
-
+import com.urcarcher.be.swimming.dto.ExchangeMemberDTO;
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
 import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
 
 public interface ExchangeService {
+	// 로그인 유저 국적 조회
+	public ExchangeMemberDTO findMember(String memberId);
+	
 	// 카드 리스트 조회
 	public List<ExchangeCardDTO> getList(String memberId);
 	
@@ -126,6 +128,16 @@ public interface ExchangeService {
 				.cardNumber(card.getCardNumber())
 				.cardBalance(card.getCardBalance())
 				.cardUsage(type.getCardUsage())
+				.build();
+		
+		return dto;
+	}
+	
+	// 로그인 유저 국적, 카드 ID 조회 Entity -> DTO
+	default ExchangeMemberDTO memberEntityToDto(Member member) {
+		ExchangeMemberDTO dto = ExchangeMemberDTO.builder()
+				// .memberId(member.getMemberId())
+				.nationality(member.getNationality())
 				.build();
 		
 		return dto;
