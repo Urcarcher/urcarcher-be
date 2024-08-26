@@ -4,6 +4,8 @@ import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,22 +35,19 @@ public class ExchangeRestController {
 
 	// 카드 리스트 조회
 	@GetMapping("/list")
-	public List<ExchangeCardDTO> getList() {
-		String memberId = "bleakwinter";
-//		String memberId = "happy";
+	public List<ExchangeCardDTO> getList(@AuthenticationPrincipal UserDetails userDetails) {
+		String memberId = userDetails.getUsername();
 
 		return exService.getList(memberId);
 	}
 
 	// 바로 환전
 	@PostMapping("/insert")
-	public String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto) {
-		String memberId = "bleakwinter";
-//		String memberId = "happy";
+	public String exchangeInsert(@RequestBody ExchangeInfoDTO infoDto, @AuthenticationPrincipal UserDetails userDetails) {
+		String memberId = userDetails.getUsername();
+		Long currency = infoDto.getExCur();
 
 		exService.exchangeInsert(infoDto, memberId);
-
-		Long currency = infoDto.getExCur();
 
         // KRW 형식으로 변환
         NumberFormat krwFormat = NumberFormat.getCurrencyInstance(Locale.KOREA);
@@ -59,17 +58,18 @@ public class ExchangeRestController {
 	
 	// 예약 내역 조회
 	@GetMapping("/rate/detail/{cardId}")
-	public ExchangeSetDTO setDetail(@PathVariable("cardId") Long cardId) {
-		String memberId = "bleakwinter";
+	public ExchangeSetDTO setDetail(@PathVariable("cardId") Long cardId, @AuthenticationPrincipal UserDetails userDetails) {
+		String memberId = userDetails.getUsername();
 		
 		return exService.setDetail(cardId, memberId);
 	}
 	
 	// 예약 환전
 	@PostMapping("/rate/insert")
-	public void setInsert(@RequestBody ExchangeSetDTO setDto) {
-		String memberId = "bleakwinter";
-//		System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
+	public void setInsert(@RequestBody ExchangeSetDTO setDto, @AuthenticationPrincipal UserDetails userDetails) {
+		String memberId = userDetails.getUsername();
+		
+		// System.out.println("******************** 예약일 확인 : " + setDto.getSetDate());
 		exService.setInsert(setDto, memberId);
 	}
 	
@@ -81,10 +81,10 @@ public class ExchangeRestController {
 	
 	// 환전 내역 전체 조회
 	@GetMapping("/list/{cardId}")
-	public List<ExchangeInfoDTO> infoList(@PathVariable("cardId") Long cardId) {
-		String memberID = "bleakwinter";
+	public List<ExchangeInfoDTO> infoList(@PathVariable("cardId") Long cardId, @AuthenticationPrincipal UserDetails userDetails) {
+		String memberId = userDetails.getUsername();
 		
-		return exService.infoList(cardId, memberID);
+		return exService.infoList(cardId, memberId);
 	}
 	
 	// 환전 내역 상세 조회

@@ -36,14 +36,14 @@ public interface ExchangeRepository extends JpaRepository<ExchangeInfoEntity, Lo
 	// 카드 별 환전 내역 전체 조회
 	@Query("SELECT e, c, s FROM ExchangeInfoEntity e"
 			+ " JOIN CardEntity c on (e.card = c)"
-			+ " JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
+			+ " LEFT JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
 			+ " WHERE c.cardId = ?1")
 	List<ExchangeInfoEntity> findByExchangeInfo(Long cardID);
 	
 	// 환전 내역 상세 조회
 	@Query("SELECT e, c, s FROM ExchangeInfoEntity e"
 			+ " JOIN CardEntity c on (e.card = c)"
-			+ " JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
+			+ " LEFT JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
 			+ " WHERE e.exId = ?1")
 	ExchangeInfoEntity findByInfoDetail(Long exId);
 }
