@@ -25,13 +25,11 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	final ExchangeRepository exRepo;
 	final ExchangeSetRepository setRepo;
-
 	
 	// 카드 리스트 조회
 	@Override
 	public List<ExchangeCardDTO> getList(String memberId) {
 		List<Object[]> entityList = exRepo.findByMemberId(memberId);
-
 		
 		/*
 		List<CardDTO> dtoList = entityList.stream().map(entity -> cardEntityToDto(entity)).collect(Collectors.toList());
@@ -81,7 +79,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		CardEntity card = exRepo.findByCard(memberId, cardId);
 		
 		ExchangeSetEntity entity = setRepo.findByCurSet(card.getCardId());
-		System.out.println("******************** entity 확인" + entity);
+		// System.out.println("******************** entity 확인" + entity);
 		
 		if (entity == null) return null;
 		
