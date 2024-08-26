@@ -37,7 +37,8 @@ public interface ExchangeRepository extends JpaRepository<ExchangeInfoEntity, Lo
 	@Query("SELECT e, c, s FROM ExchangeInfoEntity e"
 			+ " JOIN CardEntity c on (e.card = c)"
 			+ " LEFT JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
-			+ " WHERE c.cardId = ?1")
+			+ " WHERE c.cardId = ?1"
+			+ " ORDER BY e.exDate DESC")
 	List<ExchangeInfoEntity> findByExchangeInfo(Long cardID);
 	
 	// 환전 내역 상세 조회
