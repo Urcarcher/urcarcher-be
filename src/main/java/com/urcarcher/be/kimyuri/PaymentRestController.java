@@ -1,5 +1,6 @@
 package com.urcarcher.be.kimyuri;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -46,13 +47,29 @@ public class PaymentRestController {
 		return "삭제작업";
 	}
 	
+	// 카드관리 - 즉시결제
+	@PostMapping("/immediatepayment")
+	Boolean immediatePayment(@RequestBody Map<String, String> requestBody) {
+		return paymentService.immediatePayment(Long.parseLong(requestBody.get("cardId")), requestBody.get("paymentDate"));
+	}
+	
+	// 카드관리 - 결제내역
+	@PostMapping("/detailpayment")
+	Double detailPayment(@RequestBody Map<String, String> requestBody) {
+		return paymentService.detailPayment(Long.parseLong(requestBody.get("cardId")), requestBody.get("paymentDate"));
+	}
+	
 	// 카드 관리 - 최근 결제 내역 가져오기
 	@PostMapping("/recentpayment")
 	PaymentDTO readByCardId(@RequestBody Map<String, String> requestBody) {
-		System.out.println(paymentService.readBycardId(Long.parseLong(requestBody.get("cardId"))));
 		return paymentService.readBycardId(Long.parseLong(requestBody.get("cardId")));
 	}
 	
+	// 예약금 결제
+	@PostMapping("/depositpayment")
+	void depositPayment(@RequestBody PaymentDTO dto) {
+		paymentService.insert(dto);
+	}
 	@PostMapping("/by-member")
 	public ResponseEntity<List<PaymentDTO>> getPaymentsByMemberId(@RequestBody Map<String, String> requestBody) {
 	    String memberId = requestBody.get("memberId");
@@ -66,6 +83,4 @@ public class PaymentRestController {
 	    }
 	    return ResponseEntity.ok(payments);
 	}
-
-
 }

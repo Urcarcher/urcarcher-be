@@ -1,4 +1,5 @@
 package com.urcarcher.be.kimyuri;
+import java.time.LocalDate;
 import java.util.List;
 
 import com.urcarcher.be.jjjh.entity.StoreEntity;
@@ -15,6 +16,9 @@ public interface PaymentService {
 	
 	PaymentDTO readBycardId(Long cardId);
 	
+	Double detailPayment(Long cardId, String paymentDate);
+	
+	Boolean immediatePayment(Long cardId, String paymentDate);
 	
 	 // 새로운 메서드 추가
     List<PaymentDTO> findPaymentsByMemberId(String memberId);

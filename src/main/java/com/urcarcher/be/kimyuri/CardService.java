@@ -35,7 +35,10 @@ public interface CardService {
     
     boolean chargeAmount(Long cardId, Double cardBalance);
     
-    boolean immediatePayment(Long cardId);
+    boolean usePayment(Long cardId, Double cardBalance);
+    
+    List<CardDTO> getCardInfo(String memberId);
+    
     // Entity -> DTO
     default CardDTO entityToDTO(CardEntity entity) {
         CardDTO dto = CardDTO.builder()
