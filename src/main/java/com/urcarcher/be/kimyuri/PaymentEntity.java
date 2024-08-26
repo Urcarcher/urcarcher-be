@@ -33,6 +33,9 @@ public class PaymentEntity {
 	
 	@Column(nullable = false)
 	LocalDateTime paymentDate;
+	
+    @Column(nullable = false)
+    boolean isInstantPayment;
 
 
 	@ManyToOne
@@ -42,5 +45,6 @@ public class PaymentEntity {
 	@ManyToOne
 	@JoinColumn(name = "card_id", nullable = false)
 	CardEntity card;
+	
 
 }

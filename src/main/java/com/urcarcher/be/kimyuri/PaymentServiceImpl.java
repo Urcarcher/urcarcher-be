@@ -3,6 +3,10 @@ package com.urcarcher.be.kimyuri;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 import org.springframework.stereotype.Service;
 
@@ -45,6 +49,62 @@ public class PaymentServiceImpl implements PaymentService {
 		// Optional이 비어있지 않으면, PaymentEntity를 PaymentDTO로 변환
 		return entityOptional.map(entity -> entityToDTO(entity)).orElse(null);
 	}
+	
+	@Override
+    public Double detailPayment(Long cardId, String paymentDate) {
+        try {
+            // String을 LocalDate로 변환 (날짜 형식이 "yyyy-MM-dd"인 경우)
+            LocalDate convertPaymentDate = LocalDate.parse(paymentDate, DateTimeFormatter.ISO_LOCAL_DATE);
+            
+            // LocalDate를 LocalDateTime으로 변환 (시간은 00:00:00으로 설정)
+            LocalDateTime startOfDay = convertPaymentDate.atStartOfDay();
+            
+            // 현재 날짜에서 한 달 전의 날짜를 계산
+            LocalDateTime oneMonthAgo = startOfDay.minusMonths(1);
+
+            // 한 달 전부터 지정된 날짜까지의 결제 금액을 합산
+            Double totalPayment = paymentRepo.findByCard_CardIdAndPaymentDateBetweenAndIsInstantPaymentFalse(cardId, oneMonthAgo, startOfDay)
+                                             .stream()
+                                             .mapToDouble(PaymentEntity::getPaymentPrice)
+                                             .sum();
+            return totalPayment;
+
+        } catch (DateTimeParseException e) {
+            // 날짜 형식이 잘못된 경우 처리
+            throw new IllegalArgumentException("잘못된 날짜 형식: " + paymentDate, e);
+        }
+    }
+	
+	
+	@Override
+	public Boolean immediatePayment(Long cardId, String paymentDate) {
+	    try {
+	        // String을 LocalDate로 변환 (날짜 형식이 "yyyy-MM-dd"인 경우)
+	        LocalDate convertPaymentDate = LocalDate.parse(paymentDate, DateTimeFormatter.ISO_LOCAL_DATE);
+	        
+	        // LocalDate를 LocalDateTime으로 변환 (시간은 00:00:00으로 설정)
+	        LocalDateTime startOfDay = convertPaymentDate.atStartOfDay();
+	        
+	        // 현재 날짜와 시간을 가져옴
+	        LocalDateTime now = LocalDateTime.now();
+	        
+	        // 현재 날짜에서 한 달 전의 날짜를 계산
+	        LocalDateTime oneMonthAgo = startOfDay.minusMonths(1);
+
+	        // 직접 업데이트 쿼리 호출
+	        int updatedRows = paymentRepo.updatePaymentStatusToTrue(cardId, oneMonthAgo, now);
+
+	        // 업데이트된 행 수에 따라 true 또는 false 반환
+	        return updatedRows > 0;
+
+	    } catch (DateTimeParseException e) {
+	        // 날짜 형식이 잘못된 경우 처리
+	        throw new IllegalArgumentException("잘못된 날짜 형식: " + paymentDate, e);
+	    }
+	}
+	
+	
+	
 
 	@Override
 	public List<PaymentDTO> findPaymentsByMemberId(String memberId) {

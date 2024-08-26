@@ -1,5 +1,6 @@
 package com.urcarcher.be.kimyuri;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -65,9 +66,25 @@ public class CardServiceImpl implements CardService {
     }
     
     @Override
-    public boolean immediatePayment(Long cardId) {
-    	int rusult = cardRepo.updateCardBalance(cardId);
+    public boolean usePayment(Long cardId, Double cardBalance) {
+    	int rusult = cardRepo.subtractFromCardBalance(cardId, cardBalance);
     	return rusult > 0;
+    }
+    
+    @Override
+    public List<CardDTO> getCardInfo(String memberId) {
+    	List<CardEntity> cardEntities = cardRepo.findByMemberId(memberId);
+    	
+    	if (cardEntities.isEmpty()) {
+            return Collections.emptyList();
+        }
+    	
+    	// CardEntity 리스트를 CardDTO 리스트로 변환
+        List<CardDTO> cardDTOs = cardEntities.stream()
+            .map(this::entityToDTO)
+            .collect(Collectors.toList());
+
+        return cardDTOs;
     }
     
     

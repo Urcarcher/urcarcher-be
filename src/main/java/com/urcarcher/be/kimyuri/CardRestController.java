@@ -104,7 +104,7 @@ public class CardRestController {
 	        }
 	 }
 	 
-	 // 카드관리 - 선불카드 잔핵 충전
+	 // 카드관리 - 선불카드 잔액 충전
 	 @PostMapping("/chargeamount")
 	 public ResponseEntity<String> chargeAmount(@RequestBody Map<String, String> requestBody){
 		 boolean isCheck = cardService.chargeAmount(Long.parseLong(requestBody.get("cardId")), Double.parseDouble((requestBody.get("cardBalance"))));
@@ -115,18 +115,27 @@ public class CardRestController {
 	        }
 	 }
 	 
-	 // 카드관리 - 신용카드 즉시결제
-	 @PostMapping("/immediatepayment")
-	 public ResponseEntity<String> immediatePayment(@RequestBody Map<String, String> requestBody){
-		 boolean isCheck = cardService.immediatePayment(Long.parseLong(requestBody.get("cardId")));
-	        if (isCheck) {
-	            return ResponseEntity.ok("true");
-	        } else {
-	            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("false");
-	        }
+	 
+	 // 카드관리 - 카드 정보 불러오기
+	 @GetMapping("/mycard/{memberId}")
+	 public List<CardDTO> getMyCardInfo(@PathVariable("memberId") String memberId) {
+		 List<CardDTO> result = cardService.getCardInfo(memberId);
+		 return result;
 	 }
 	 
-	 
+	 // 예약금 결제 - 선불카드 잔액 차감
+	 @PostMapping("/usepayment")
+	 public ResponseEntity<String> usePayment(@RequestBody Map<String, String> requestBody){
+	     boolean isCheck = cardService.usePayment(
+	         Long.parseLong(requestBody.get("cardId")),
+	         Double.parseDouble(requestBody.get("cardBalance"))
+	     );
+	     if (isCheck) {
+	         return ResponseEntity.ok("true");
+	     } else {
+	         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("false");
+	     }
+	 }
 	 
 	 
 	
