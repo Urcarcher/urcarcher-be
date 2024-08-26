@@ -16,47 +16,57 @@ import com.urcarcher.be.jjjh.entity.StoreEntity;
 public interface StoreRepository extends JpaRepository<StoreEntity, String> {
 
 	//결제 내역 중 전체 카테고리 건수 내역 조회 (현재 날짜 이전 한 달까지)
-	 @Query(value = "SELECT s.category_code, s.category_name, COUNT(*) AS usage_count " +
-             "FROM payment p " +
-             "JOIN store s ON p.store_id = s.store_id " +
-             "JOIN card c ON p.card_id = c.card_id " +
-             "WHERE c.member_id = :memberId " +
-             "AND p.payment_date BETWEEN NOW() - INTERVAL 1 MONTH AND NOW() " +
-             "GROUP BY s.category_code, s.category_name " +
-             "ORDER BY usage_count DESC", 
-     nativeQuery = true)
+	@Query(value = "SELECT s.category_code, s.category_name, COUNT(*) AS usage_count " +
+            "FROM payment p " +
+            "JOIN store s ON p.store_id = s.store_id " +
+            "JOIN card c ON p.card_id = c.card_id " +
+            "WHERE c.member_id = :memberId " +
+            "AND p.payment_date BETWEEN NOW() - INTERVAL 1 MONTH AND NOW() " +
+            "AND s.store_id != '11111111' " +
+            "AND s.category_code IS NOT NULL " +
+            "AND s.category_name IS NOT NULL " +
+            "AND s.category_code != '' " +
+            "AND s.category_name != '' " +
+            "GROUP BY s.category_code, s.category_name " +
+            "ORDER BY usage_count DESC", 
+    nativeQuery = true)
 	 List<Object[]> findMostUsedCategoriesByMemberId(@Param("memberId") String memberId);	
 	 
 	 //상위 3개 카테고리 정보 
 	 @Query(value = """
 		        SELECT 
-		            category_code, 
-		            category_name, 
-		            usage_count
-		        FROM (
-		            SELECT 
-		                s.category_code, 
-		                s.category_name, 
-		                COUNT(*) AS usage_count,
-		                RANK() OVER (ORDER BY COUNT(*) DESC, s.category_name ASC) AS rn
-		            FROM 
-		                payment p
-		            JOIN 
-		                store s ON p.store_id = s.store_id
-		            JOIN 
-		                card c ON p.card_id = c.card_id
-		            WHERE 
-		                c.member_id = :memberId  
-		                AND p.payment_date BETWEEN NOW() - INTERVAL 1 MONTH AND NOW()
-		            GROUP BY 
-		                s.category_code, 
-		                s.category_name
-		        ) AS RankedCategories
-		        WHERE 
-		            rn <= 3
-		        ORDER BY 
-		            usage_count DESC, 
-		            category_name ASC
+				    category_code, 
+				    category_name, 
+				    usage_count
+				FROM(
+					SELECT 
+				    	s.category_code, 
+				    	s.category_name, 
+				    	COUNT(*) AS usage_count,
+					   RANK() OVER (ORDER BY COUNT(*) DESC, s.category_name ASC) AS rn
+					FROM 
+					    payment p
+					JOIN 
+					    store s ON p.store_id = s.store_id
+					JOIN 
+					    card c ON p.card_id = c.card_id
+					WHERE 
+					    c.member_id ='9911dbfl'  
+					    AND p.payment_date BETWEEN NOW() - INTERVAL 1 MONTH AND NOW()
+					    AND s.store_id != '11111111' 
+					    AND s.category_code IS NOT NULL  
+				       AND s.category_name IS NOT NULL 
+				       AND s.category_code != ' '
+				       AND s.category_name != ' '
+					GROUP BY 
+					    s.category_code, 
+					    s.category_name
+				) AS  RankedCategories
+				WHERE 
+				    rn <= 3
+				ORDER BY 
+					 usage_count DESC, 
+					 category_name ASC
 		        """, nativeQuery = true)
 	 List<Object[]> findTopCategoriesByMemberId(@Param("memberId") String memberId);
 	 
