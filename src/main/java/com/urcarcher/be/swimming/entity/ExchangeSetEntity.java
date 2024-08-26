@@ -18,6 +18,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -53,7 +54,6 @@ public class ExchangeSetEntity {
 	private Timestamp setUpdate; // 등록일
 	
 	private String setStatus; // 환전상태
-
 	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 
@@ -61,7 +61,7 @@ public class ExchangeSetEntity {
 			fetch = FetchType.LAZY)
 	List<ExchangeInfoEntity> infoList; // 환전내역 리스트
 	
-	@JoinColumn(name = "card_id")
-	@OneToOne
+	@JoinColumn(name = "card_id", unique = false)
+	@ManyToOne
 	CardEntity card; // 카드 table
 }

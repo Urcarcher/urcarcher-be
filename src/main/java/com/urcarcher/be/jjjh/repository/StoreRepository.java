@@ -60,52 +60,55 @@ public interface StoreRepository extends JpaRepository<StoreEntity, String> {
 		        """, nativeQuery = true)
 	 List<Object[]> findTopCategoriesByMemberId(@Param("memberId") String memberId);
 	 
-	 //전체 회원의 한 달간 결제 내역 중 총 결제 건수가 많은 가맹점 정보
+	 //전체 회원의 지난 한 달간 결제 내역 중 총 결제 건수가 많은 가맹점 정보
 	 //테스트용
-	  @Query(value = "SELECT " +
-              "s.store_id, " +
-              "s.store_name, " +
-              "s.store_addr, " +
-              "s.store_road_addr, " +
-              "s.store_phone, " +
-              "s.store_url, " +
-              "s.store_x, " +
-              "s.store_y, " +
-              "s.category_code, " +
-              "s.category_name, " +
-              "COUNT(p.payment_id) AS usage_count " +
-              "FROM test_payment p " +
-              "JOIN store s ON p.store_id = s.store_id " +
-              "JOIN test_card c ON p.card_id = c.card_id " +
-              "WHERE c.member_id != :memberId " +  // 로그인한 회원의 결제 내역 제외
-              "GROUP BY s.store_id, s.store_name, s.store_addr, s.store_road_addr, " +
-              "s.store_phone, s.store_url, s.store_x, s.store_y, " +
-              "s.category_code, s.category_name " +
-              "ORDER BY usage_count DESC", 
-      nativeQuery = true)
-	List<Object[]> findMostUsedStoresExcludingMember(@Param("memberId") String memberId);
+	@Query(value = "SELECT " +
+             "s.store_id AS storeId, " +
+             "s.store_name AS storeName, " +
+             "s.store_addr AS storeAddr, " +
+             "s.store_road_addr AS storeRoadAddr, " +
+             "s.store_phone AS storePhone, " +
+             "s.store_url AS storeUrl, " +
+             "s.store_x AS storeX, " +
+             "s.store_y AS storeY, " +
+             "s.category_code AS categoryCode, " +
+             "s.category_name AS categoryName, " +
+             "COUNT(p.payment_id) AS usageCount " +
+             "FROM test_payment p " +
+             "JOIN store s ON p.store_id = s.store_id " +
+             "JOIN test_card c ON p.card_id = c.card_id " +
+             "WHERE c.member_id != :memberId " +  // 로그인한 회원의 결제 내역 제외
+             "AND p.payment_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) " +  // 지난 한 달간의 내역만 포함
+             "GROUP BY s.store_id, s.store_name, s.store_addr, s.store_road_addr, " +
+             "s.store_phone, s.store_url, s.store_x, s.store_y, " +
+             "s.category_code, s.category_name " +
+             "ORDER BY usageCount DESC", 
+         nativeQuery = true)
+		List<Object[]> findMostUsedStoresExcludingMember(@Param("memberId") String memberId);
+
 	 
 //	  @Query(value = "SELECT " +
-//              "s.store_id, " +
-//              "s.store_name, " +
-//              "s.store_addr, " +
-//              "s.store_road_addr, " +
-//              "s.store_phone, " +
-//              "s.store_url, " +
-//              "s.store_x, " +
-//              "s.store_y, " +
-//              "s.category_code, " +
-//              "s.category_name, " +
-//              "COUNT(p.payment_id) AS usage_count " +
-//              "FROM payment p " +
-//              "JOIN store s ON p.store_id = s.store_id " +
-//              "JOIN card c ON p.card_id = c.card_id " +
-//              "WHERE c.member_id != :memberId " +  // 로그인한 회원의 결제 내역 제외
-//              "GROUP BY s.store_id, s.store_name, s.store_addr, s.store_road_addr, " +
-//              "s.store_phone, s.store_url, s.store_x, s.store_y, " +
-//              "s.category_code, s.category_name " +
-//              "ORDER BY usage_count DESC", 
-//      nativeQuery = true)
+//        "s.store_id AS storeId, " +
+//        "s.store_name AS storeName, " +
+//        "s.store_addr AS storeAddr, " +
+//        "s.store_road_addr AS storeRoadAddr, " +
+//        "s.store_phone AS storePhone, " +
+//        "s.store_url AS storeUrl, " +
+//        "s.store_x AS storeX, " +
+//        "s.store_y AS storeY, " +
+//        "s.category_code AS categoryCode, " +
+//        "s.category_name AS categoryName, " +
+//        "COUNT(p.payment_id) AS usageCount " +
+//        "FROM payment p " +
+//        "JOIN store s ON p.store_id = s.store_id " +
+//        "JOIN card c ON p.card_id = c.card_id " +
+//        "WHERE c.member_id != :memberId " +  // 로그인한 회원의 결제 내역 제외
+//        "AND p.payment_date >= DATE_SUB(CURDATE(), INTERVAL 1 MONTH) " +  // 지난 한 달간의 내역만 포함
+//        "GROUP BY s.store_id, s.store_name, s.store_addr, s.store_road_addr, " +
+//        "s.store_phone, s.store_url, s.store_x, s.store_y, " +
+//        "s.category_code, s.category_name " +
+//        "ORDER BY usageCount DESC", 
+//    nativeQuery = true)
 //	  List<Object[]> findMostUsedStoresExcludingMember(@Param("memberId") String memberId);
 
 }

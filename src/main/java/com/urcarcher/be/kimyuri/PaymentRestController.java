@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 
 @RestController
@@ -66,5 +69,18 @@ public class PaymentRestController {
 	@PostMapping("/depositpayment")
 	void depositPayment(@RequestBody PaymentDTO dto) {
 		paymentService.insert(dto);
+	}
+	@PostMapping("/by-member")
+	public ResponseEntity<List<PaymentDTO>> getPaymentsByMemberId(@RequestBody Map<String, String> requestBody) {
+	    String memberId = requestBody.get("memberId");
+	    System.out.println("Received memberId: " + memberId); // 로그 추가
+
+	    List<PaymentDTO> payments = paymentService.findPaymentsByMemberId(memberId);
+	    System.out.println("Payments found: " + payments.size()); // 로그 추가
+
+	    if (payments.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+	    }
+	    return ResponseEntity.ok(payments);
 	}
 }

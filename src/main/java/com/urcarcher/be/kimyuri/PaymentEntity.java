@@ -30,11 +30,13 @@ public class PaymentEntity {
 
 	@Column(nullable = false)
 	Double paymentPrice;
+	
 	@Column(nullable = false)
 	LocalDateTime paymentDate;
 	
     @Column(nullable = false)
     boolean isInstantPayment;
+
 
 	@ManyToOne
 	@JoinColumn(name = "store_id", nullable = false)

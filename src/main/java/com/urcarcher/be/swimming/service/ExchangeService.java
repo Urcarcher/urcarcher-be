@@ -29,9 +29,14 @@ public interface ExchangeService {
 	// 예약 내역 삭제
 	public void setDelete(Long setId);
 	
+	// 환전 내역 전체 조회
+	public List<ExchangeInfoDTO> infoList(Long cardId, String memberId);
+	
+	// 환전 내역 상세 조회
+	public ExchangeInfoDTO infoDetail(Long exId);
+	
 	// 바로 환전 DTO -> Entity
 	default ExchangeInfoEntity infoDtoToEntity(ExchangeInfoDTO infoDto) {
-
 		Member memberEntity = Member.builder()
 				.memberId("bleakwinter")
 				.build();
@@ -49,7 +54,7 @@ public interface ExchangeService {
 				.card(cardEntity)
 				.build();
 		
-		System.out.println("******************** infoEntity 확인 : " + infoEntity);
+		// System.out.println("******************** infoEntity 확인 : " + infoEntity);
 		return infoEntity;
 	}
 	
@@ -59,13 +64,15 @@ public interface ExchangeService {
 				.exId(infoEntity.getExId())
 				.cardId(infoEntity.getCard().getCardId())
 				.cardUsage(infoEntity.getCard().getCardType().getCardUsage())
+				.cardBalance(infoEntity.getCard().getCardBalance())
+				.setId(infoEntity.getExchangeSet() != null ? infoEntity.getExchangeSet().getSetId() : null)
 				.exRate(infoEntity.getExRate())
 				.exCur(infoEntity.getExCur())
 				.exPay(infoEntity.getExPay())
 				.exDate(infoEntity.getExDate())
 				.build();
 		
-		System.out.println("******************** infoDTO 확인 : " + infoDto);
+		// System.out.println("******************** infoDTO 확인 : " + infoDto);
 		return infoDto;
 	}
 	
@@ -90,7 +97,7 @@ public interface ExchangeService {
 				.card(cardEntity)
 				.build();
 		
-		System.out.println("******************** setEntity 확인 : " + setEntity);
+		// System.out.println("******************** setEntity 확인 : " + setEntity);
 		return setEntity;
 	};
 	
@@ -108,7 +115,7 @@ public interface ExchangeService {
 				.setStatus(setEntity.getSetStatus())
 				.build();
 		
-		System.out.println("******************** setDto 확인 : " + setDto);
+		// System.out.println("******************** setDto 확인 : " + setDto);
 		return setDto;
 	}
 
@@ -116,6 +123,7 @@ public interface ExchangeService {
 	default ExchangeCardDTO cardEntityToDto(CardEntity card, CardTypeEntity type) {
 		ExchangeCardDTO dto = ExchangeCardDTO.builder()
 				.cardId(card.getCardId())
+				.cardNumber(card.getCardNumber())
 				.cardBalance(card.getCardBalance())
 				.cardUsage(type.getCardUsage())
 				.build();

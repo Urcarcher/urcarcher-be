@@ -16,6 +16,7 @@ public class ExchangeInfoDTO {
 	private Long setId; // 예약번호 (FK)
 	private Long cardId; // 카드 ID (FK)
 	private String cardUsage; // 카드분류
+	Double cardBalance; // 카드 잔액
 	private Double exRate; // 적용환율
 	private Long exCur; // 환전금액
 	private Double exPay; // 결제금액 (원화)

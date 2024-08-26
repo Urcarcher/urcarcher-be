@@ -20,7 +20,9 @@ public interface PaymentService {
 	
 	Boolean immediatePayment(Long cardId, String paymentDate);
 	
-	
+	 // 새로운 메서드 추가
+    List<PaymentDTO> findPaymentsByMemberId(String memberId);
+    
 	// Entity -> DTO
 	default PaymentDTO entityToDTO(PaymentEntity entity) {
 		PaymentDTO dto = PaymentDTO.builder()
@@ -53,6 +55,8 @@ public interface PaymentService {
 				.build();
 		return entity;
 	}
+
+	
 	
 	
 	

@@ -50,12 +50,18 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	public void incrementViewCount(String courseId) {
-		System.out.println("업데이트할 코스:"  + courseId);
+		
 		courseRepo.findById(courseId).ifPresent(course ->{
 			course.setViewCount(course.getViewCount() + 1);
 	        courseRepo.save(course); 
-	        System.out.println("조회!!" + course.getViewCount());
+	        
 	    });
+		
+	}
+
+	@Override
+	public void saveCertification(CourseCertificationEntity entity) {
+		certifiRepo.save(entity);
 		
 	}
 	
