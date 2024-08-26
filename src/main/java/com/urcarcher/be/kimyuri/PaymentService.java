@@ -16,6 +16,8 @@ public interface PaymentService {
 	
 	PaymentDTO readBycardId(Long cardId);
 	
+	List<PaymentDTO> readBycardIdAll(Long cardId);
+	
 	Double detailPayment(Long cardId, String paymentDate);
 	
 	Boolean immediatePayment(Long cardId, String paymentDate);

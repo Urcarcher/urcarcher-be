@@ -73,14 +73,19 @@ public class PaymentRestController {
 	@PostMapping("/by-member")
 	public ResponseEntity<List<PaymentDTO>> getPaymentsByMemberId(@RequestBody Map<String, String> requestBody) {
 	    String memberId = requestBody.get("memberId");
-	    System.out.println("Received memberId: " + memberId); // 로그 추가
+//	    System.out.println("Received memberId: " + memberId); // 로그 추가
 
 	    List<PaymentDTO> payments = paymentService.findPaymentsByMemberId(memberId);
-	    System.out.println("Payments found: " + payments.size()); // 로그 추가
+//	    System.out.println("Payments found: " + payments.size()); // 로그 추가
 
 	    if (payments.isEmpty()) {
 	        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 	    }
 	    return ResponseEntity.ok(payments);
+	}
+	
+	@PostMapping("/paymenthistory")
+	List<PaymentDTO> myPayment(@RequestBody Map<String, String> requestBody) {
+		return paymentService.readBycardIdAll(Long.parseLong(requestBody.get("cardId")));
 	}
 }

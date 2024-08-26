@@ -51,6 +51,13 @@ public class PaymentServiceImpl implements PaymentService {
 	}
 	
 	@Override
+	public List<PaymentDTO> readBycardIdAll(Long cardId) {
+		List<PaymentEntity> entities = paymentRepo.findAllByCardCardId(cardId);
+
+	    return entities.stream().map(entity -> entityToDTO(entity)).collect(Collectors.toList());
+	}
+	
+	@Override
     public Double detailPayment(Long cardId, String paymentDate) {
         try {
             // String을 LocalDate로 변환 (날짜 형식이 "yyyy-MM-dd"인 경우)

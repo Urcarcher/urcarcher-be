@@ -33,4 +33,8 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
            "FROM PaymentEntity p JOIN p.store s " +
            "WHERE p.card.member.memberId = :memberId")
     List<PaymentDTO> findAllPaymentsByMemberId(@Param("memberId") String memberId);
+    
+ 	// 특정 카드 ID로 모든 결제 내역 가져오기
+    List<PaymentEntity> findAllByCardCardId(Long cardId);
+
 }
