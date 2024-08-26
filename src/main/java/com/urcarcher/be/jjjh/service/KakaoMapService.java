@@ -20,7 +20,7 @@ import lombok.extern.log4j.Log4j2;
 @Service
 public class KakaoMapService {
 	
-	 	private final String KAKAO_API_KEY = "93dd1908c476fbdb94ec258f697c680d";  // 발급받은 REST API 키를 입력하세요.
+	 	private final String KAKAO_API_KEY = "93dd1908c476fbdb94ec258f697c680d";  // 발급받은 REST API 키
 	    //private final String KAKAO_API_URL = "https://dapi.kakao.com/v2/local/search/keyword.json";
 	    
 	 	public JsonNode searchPlaceByKeyword(String keyword) {
