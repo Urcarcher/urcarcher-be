@@ -5,11 +5,12 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.kimyuri.CardTypeEntity;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
 import com.urcarcher.be.swimming.dto.ExchangeInfoDTO;
-
+import com.urcarcher.be.swimming.dto.ExchangeMemberDTO;
 import com.urcarcher.be.swimming.dto.ExchangeSetDTO;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
 import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
@@ -25,6 +26,16 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	final ExchangeRepository exRepo;
 	final ExchangeSetRepository setRepo;
+	
+	// 로그인 유저 국적 조회
+	@Override
+	public ExchangeMemberDTO findMember(String memberId) {
+		Member entity = exRepo.findMember(memberId);
+		
+		if (entity == null) return null;
+		
+		return memberEntityToDto(entity);
+	}
 	
 	// 카드 리스트 조회
 	@Override
