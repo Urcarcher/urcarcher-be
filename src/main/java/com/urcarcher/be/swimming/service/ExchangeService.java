@@ -128,6 +128,7 @@ public interface ExchangeService {
 				.cardNumber(card.getCardNumber())
 				.cardBalance(card.getCardBalance())
 				.cardUsage(type.getCardUsage())
+				.cardTypeId(type.getCardTypeId())
 				.build();
 		
 		return dto;
