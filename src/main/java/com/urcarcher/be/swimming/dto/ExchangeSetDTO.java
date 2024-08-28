@@ -22,4 +22,5 @@ public class ExchangeSetDTO {
 	private LocalDate setDate; // 예약일
 	private Timestamp setUpdate; // 등록일
 	private String setStatus; // 환전상태
+	private String nationality; // 국적
 }

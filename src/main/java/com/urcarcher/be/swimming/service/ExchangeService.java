@@ -96,6 +96,7 @@ public interface ExchangeService {
 				.setDate(setDto.getSetDate())
 				.setUpdate(setDto.getSetUpdate())
 				.setStatus(setDto.getSetStatus())
+				.nationality(setDto.getNationality())
 				.card(cardEntity)
 				.build();
 		
@@ -115,6 +116,7 @@ public interface ExchangeService {
 				.setDate(setEntity.getSetDate())
 				.setUpdate(setEntity.getSetUpdate())
 				.setStatus(setEntity.getSetStatus())
+				.nationality(setEntity.getNationality())
 				.build();
 		
 		// System.out.println("******************** setDto 확인 : " + setDto);
