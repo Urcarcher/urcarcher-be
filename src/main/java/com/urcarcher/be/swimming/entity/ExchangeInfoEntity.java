@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Builder
 @NoArgsConstructor
@@ -31,13 +32,9 @@ public class ExchangeInfoEntity {
 	@Id
 	private Long exId; // 환전번호
 	
-	@Column(nullable = false)
 	private Double exRate; // 적용환율
 	
-	@Column(nullable = false)
 	private Long exCur; // 환전금액
-	
-	@Column(nullable = false)
 
 	private Double exPay; // 결제금액 (원화)
 	

@@ -1,11 +1,14 @@
 package com.urcarcher.be.swimming.service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.urcarcher.be.blkwntr.entity.Member;
+import com.urcarcher.be.blkwntr.exrate.service.ExchangeRateService;
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.kimyuri.CardTypeEntity;
 import com.urcarcher.be.swimming.dto.ExchangeCardDTO;
@@ -26,6 +29,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 
 	final ExchangeRepository exRepo;
 	final ExchangeSetRepository setRepo;
+	final ExchangeRateService rateService;
 	
 	// 로그인 유저 국적 조회
 	@Override
@@ -134,5 +138,17 @@ public class ExchangeServiceImpl implements ExchangeService {
 		if (entity == null) return null;
 		
 		return infoEntityToDto(entity);
+	}
+	
+	// 예약 환전 스케줄러
+	// @Scheduled(fixedDelay = 30 * 60 * 1000) // 30분 간격으로 실행
+	@Scheduled(fixedDelay = 1 * 60 * 1000) // 1분 간걱으로 실행
+	public void runExchange() {
+		LocalDate today = LocalDate.now();
+		List<ExchangeSetEntity> setList = setRepo.findDateSet(today); // 오늘 날짜와 같은 예약일 조회
+		
+		System.out.println("============================== 1분 간격으로 스케줄러 실행 ==============================");
+		System.out.println("오늘 날짜와 같은 예약일 리스트 : " + setList);
+		
 	}
 }
