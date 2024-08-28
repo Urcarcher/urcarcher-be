@@ -49,6 +49,8 @@ public class ExchangeSetEntity {
 	
 	private String setStatus; // 환전상태
 	
+	private String nationality; // 국적
+	
 	// ExchangeInfoEntity 클래스에 있는 필드명
 	@OneToMany(mappedBy = "exchangeSet", 
 			cascade = CascadeType.ALL,
