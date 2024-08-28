@@ -3,6 +3,7 @@ package com.urcarcher.be.swimming.service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.urcarcher.be.blkwntr.entity.Member;
@@ -134,5 +135,12 @@ public class ExchangeServiceImpl implements ExchangeService {
 		if (entity == null) return null;
 		
 		return infoEntityToDto(entity);
+	}
+	
+	// 예약 환전 스케줄러
+	// @Scheduled(fixedDelay = 30 * 60 * 1000) // 30분 간격으로 실행
+	@Scheduled(fixedDelay = 1 * 60 * 1000) // 1분 간걱으로 실행
+	public void runExchange() {
+		System.out.println("============================== 1분 간격으로 스케줄러 실행 ==============================");
 	}
 }

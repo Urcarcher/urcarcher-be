@@ -38,16 +38,12 @@ public class ExchangeSetEntity {
 	@Id
 	private Long setId; // 예약번호
 
-	@Column(nullable = false)
-	private Double setRate; // 예약환율 (시가)
+	// private Double setRate; // 예약환율 (시가)
 	
-	@Column(nullable = false)
 	private Long setCur; // 예약금액
 	
-	@Column(nullable = false)
-	private Double setPay; // 결제금액 (원화)
+	// private Double setPay; // 결제금액 (원화)
 	
-	@Column(nullable = false)
 	private LocalDate setDate; // 예약일
 	
 	@CreationTimestamp

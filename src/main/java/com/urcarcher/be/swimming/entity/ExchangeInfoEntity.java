@@ -31,13 +31,9 @@ public class ExchangeInfoEntity {
 	@Id
 	private Long exId; // 환전번호
 	
-	@Column(nullable = false)
 	private Double exRate; // 적용환율
 	
-	@Column(nullable = false)
 	private Long exCur; // 환전금액
-	
-	@Column(nullable = false)
 
 	private Double exPay; // 결제금액 (원화)
 	
