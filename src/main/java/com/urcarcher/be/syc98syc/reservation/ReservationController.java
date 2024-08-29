@@ -30,19 +30,19 @@ public class ReservationController {
 
     @GetMapping("/reservation-info")
     public String getTourDetail(
-            @RequestParam(value = "stdate", defaultValue = "20240601") String stdate,
-            @RequestParam(value = "eddate", defaultValue = "20241230") String eddate,
+            @RequestParam(value = "stdate", defaultValue = "20240901") String stdate,
+            @RequestParam(value = "eddate", defaultValue = "20240902") String eddate,
             @RequestParam(value = "cpage", defaultValue = "1") String cpage,
             @RequestParam(value = "rows", defaultValue = "10") String rows,
-            @RequestParam(value = "shcate", defaultValue = "AAAA") String shcate,
-            @RequestParam(value = "shprfnm", defaultValue = "사랑") String shprfnm,
-            @RequestParam(value = "shprfnmfct", defaultValue = "예술의전당") String shprfnmfct,
-            @RequestParam(value = "prfplccd", defaultValue = "FC000003-01") String prfplccd,
+           // @RequestParam(value = "shcate", defaultValue = "AAAA") String shcate,
+           // @RequestParam(value = "shprfnm", defaultValue = "사랑") String shprfnm,
+           // @RequestParam(value = "shprfnmfct", defaultValue = "예술의전당") String shprfnmfct,
+           // @RequestParam(value = "prfplccd", defaultValue = "FC000003-01") String prfplccd,
             @RequestParam(value = "signgucode", defaultValue = "11") String signgucode,
-            @RequestParam(value = "signgucodesub", defaultValue = "1111") String signgucodesub,
-            @RequestParam(value = "kidstate", defaultValue = "Y") String kidstate,
-            @RequestParam(value = "prfstate", defaultValue = "01") String prfstate,
-            @RequestParam(value = "openrun", defaultValue = "Y") String openrun,
+            //@RequestParam(value = "signgucodesub", defaultValue = "1111") String signgucodesub,
+            //@RequestParam(value = "kidstate", defaultValue = "Y") String kidstate,
+           // @RequestParam(value = "prfstate", defaultValue = "01") String prfstate,
+            //@RequestParam(value = "openrun", defaultValue = "Y") String openrun,
             @RequestParam(value = "newsql", defaultValue = "Y") String newsql) {
 
         StringBuilder urlBuilder = new StringBuilder("https://www.kopis.or.kr/openApi/restful/pblprfr?");
@@ -50,7 +50,9 @@ public class ReservationController {
                   .append("&stdate=").append(stdate)
                   .append("&eddate=").append(eddate)
                   .append("&cpage=").append(cpage)
-                  .append("&rows=").append(rows);
+                  .append("&rows=").append(rows)
+                  .append("&signgucode=").append(signgucode)
+                  .append("&newsql=").append(newsql);
 //                  .append("&shcate=").append(shcate)
 //                  .append("&shprfnm=").append(shprfnm)
 //                  .append("&shprfnmfct=").append(shprfnmfct)
