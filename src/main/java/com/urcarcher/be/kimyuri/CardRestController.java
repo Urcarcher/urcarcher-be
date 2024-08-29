@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 public class CardRestController {
 	
 	final CardService cardService;
+	final PaymentService paymentService;  // PaymentService 추가
 
 	
 	@GetMapping("/list")
@@ -60,16 +61,26 @@ public class CardRestController {
 	}
 	
 	
-	// 카드관리 - 카드삭제
-	 @PostMapping("/deletecard")
-    public ResponseEntity<String> deleteCardWithPassword(@RequestBody Map<String, String> requestBody) {
-        boolean isDeleted = cardService.deleteCardWithPassword(Long.parseLong(requestBody.get("cardId")), requestBody.get("password"));
-        if (isDeleted) {
-            return ResponseEntity.ok("카드가 성공적으로 삭제되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 일치하지 않거나 카드가 존재하지 않습니다.");
-        }
-    }
+	// 카드관리 - 카드삭제 (비밀번호 확인 포함)
+		@PostMapping("/deletecard")
+		public ResponseEntity<String> deleteCardWithPassword(@RequestBody Map<String, String> requestBody) {
+		    try {
+		        boolean isPasswordValid = cardService.checkPinNumber(
+		            Long.parseLong(requestBody.get("cardId")), 
+		            requestBody.get("password")
+		        );
+
+		        if (!isPasswordValid) {
+		            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("비밀번호가 일치하지 않습니다.");
+		        }
+
+		        paymentService.deleteCardAndPayments(Long.parseLong(requestBody.get("cardId")));
+		        return ResponseEntity.ok("카드와 관련된 모든 결제 내역이 성공적으로 삭제되었습니다.");
+
+		    } catch (Exception e) {
+		        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카드 및 결제 내역 삭제에 실패했습니다.");
+		    }
+		}
 	 
 	 // 카드관리 - 카드 비활성화
 	 @PostMapping("/cardstatus")
