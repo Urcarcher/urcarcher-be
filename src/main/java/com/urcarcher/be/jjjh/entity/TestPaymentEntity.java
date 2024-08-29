@@ -23,8 +23,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "test_payment")
+//@Entity
+//@Table(name = "test_payment")
 public class TestPaymentEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,13 +42,13 @@ public class TestPaymentEntity {
 	
 	
 	// N:1 관계 설정 - 여러 결제가 하나의 카드와 연결될 수 있음
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "card_id", nullable = false)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "card_id", nullable = false)
     TestCardEntity card; // FK로 설정
 
     // N:1 관계 설정 - 여러 결제가 하나의 상점과 연결될 수 있음
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id", nullable = false)
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "store_id", nullable = false)
     StoreEntity store; // FK로 설정
 	
 }

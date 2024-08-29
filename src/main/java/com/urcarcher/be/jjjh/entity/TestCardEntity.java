@@ -21,8 +21,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Entity
-@Table(name = "test_card")
+//@Entity
+//@Table(name = "test_card")
 public class TestCardEntity {
 	  @Id
 	    @GeneratedValue(strategy = GenerationType.IDENTITY)
