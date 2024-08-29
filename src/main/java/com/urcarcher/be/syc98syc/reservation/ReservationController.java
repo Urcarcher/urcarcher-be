@@ -1,6 +1,6 @@
 package com.urcarcher.be.syc98syc.reservation;
 
-
+//문화활동리스트, 세부조회
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
