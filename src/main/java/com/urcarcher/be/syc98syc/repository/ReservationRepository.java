@@ -14,4 +14,7 @@ public interface ReservationRepository extends JpaRepository<ReservationEntity, 
 	
 //    @Query("SELECT r FROM ReservationEntity r WHERE r.member.memberId = :memberId")
 //    List<ReservationEntity> findByMemberId(@Param("memberId") String memberId);
+	
+	@Query("SELECT r FROM ReservationEntity r WHERE r.member.memberId = :memberId and r.classification = :classification")
+	List<ReservationEntity> findList1ByMemberId(@Param("memberId") String memberId, @Param("classification") Integer classification);
 }
