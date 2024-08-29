@@ -163,45 +163,55 @@ public class ExchangeServiceImpl implements ExchangeService {
         for (String nation : nationList) {
         	// 추출한 국적 리스트의 국적마다 해당하는 환율 조회
         	ExchangeType exchangeType = ExchangeType.valueOf(nation);
-        	
-        	// JSONObject usdRate = exchangeList.get(ExchangeType.USD);
-        	JSONObject exchangeInfo = exchangeList.get(exchangeType); // 국적 별 환율 정보
-        	
-        	String rateString = exchangeInfo.getAsString("rate"); // 매매기준율
-        	Double rate = Double.parseDouble(rateString);
-        	
-        	String buyString = exchangeInfo.getAsString("buy"); // 현찰 살 때
-        	Double buy = Double.parseDouble(buyString);
-        	
-        	// 환율 우대 90% 적용된 예상 원화 계산
-            // 매매기준율 + (현찰 살 때 - 매매기준율) * (1 - 환율 우대율)
-        	Double calculatAmt = rate + (buy - rate) * (1 - 0.9);
+        	JSONObject exchangeInfo = exchangeList.get(exchangeType); // 리스트에 있는 국적 별 환율 정보
+        	// System.out.println("** 예약일 환율 리스트" + exchangeInfo);
         	
         	if (exchangeInfo != null) {
-        		System.out.println(nation + " 환율 정보 : " + exchangeInfo.toString());
-        		
-        		// 환전 내역 insert (카드 아이디, 실시간 환율, 환전일(= 환전 예약일), 환전 금액, 결제 금액)
+        		// System.out.println("** " + nation + " 환율 정보 : " + exchangeInfo.toString());
+	        	
+        		// 환전 내역 insert (환전 금액, 결제 금액, 적용된 환율, 카드 아이디, 예약 아이디)
         		for (ExchangeSetEntity set : setList) {
+        			String rateString = exchangeInfo.getAsString("rate").replace(",", ""); // 문자열 쉼표 제거
+        			Double rate = Double.parseDouble(rateString); // 매매기준율
+        			
+        			String buyString = exchangeInfo.getAsString("buy").replace(",", ""); // 문자열 쉼표 제거
+        			Double buy = Double.parseDouble(buyString); // 현찰 살 때
+        			
+        			System.out.println("** " + nation + " 매매기준율 : " + rate + " / " + "현찰 살 때 : " + buy);
+        			
+        			// 환율 우대 90% 적용된 예상 원화 계산
+        			// 매매기준율 + (현찰 살 때 - 매매기준율) * (1 - 환율 우대율)
+        			Double calculatAmt = rate + (buy - rate) * (1 - 0.9);
+        			System.out.println("** 계산된 원화 : " + calculatAmt);
+        			
         			ExchangeInfoEntity info = new ExchangeInfoEntity();
+        		    boolean check = exRepo.checkByExInfo(set); // 중복 여부 확인
+        		    // System.out.println("** 중복 확인 : " + check);
         			
-        			info.setCard(set.getCard());
-        			info.setExRate(rate);
-        			info.setExCur(set.getSetCur());
-        			info.setExPay(calculatAmt);
-        			
-        			// exRepo.save(infoDtoToEntity(info));
+        			if (!check) {
+        				info.setExCur(set.getSetCur());
+        				info.setExPay(calculatAmt);
+        				info.setExRate(rate);
+        				info.setCard(set.getCard());
+        		        info.setExchangeSet(set);
+        				
+        				exRepo.save(info);
+        				System.out.println("** insert data : " + info);
+        			} else {
+        				System.out.println("이미 환전 된 예약 : " + info);
+        			}
         		}
+        		
+        		// 환전 예약 insert 됐던 환전 상태값 N => Y, 카드 잔액 = 환전 금액 + 기존 카드 잔액 update
+        		
         	} else {
         		System.out.println(nation + " 환율 정보 조회 실패");
         	}
         }
-        
-        // 환전 예약 insert 됐던 환전 상태값 N => Y, 카드 잔액 = 환전 금액 + 기존 카드 잔액 update
 		
 		System.out.println("============================== 1분 간격으로 스케줄러 실행 ==============================");
 		System.out.println("** 오늘 날짜와 같은 예약일 리스트 : " + setList);
-		System.out.println("** 유저 국적 리스트 : " + nationList);
+		// System.out.println("** 유저 국적 리스트 : " + nationList);
 		// System.out.println("** 실시간 환율 정보 : " + exchangeList);
-		// System.out.println("** 특정 국적 환율 정보 : " + usdRate);
 	}
 }
