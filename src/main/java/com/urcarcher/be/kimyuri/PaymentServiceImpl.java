@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import org.springframework.transaction.annotation.Transactional;
 
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class PaymentServiceImpl implements PaymentService {
 
 	final PaymentRepository paymentRepo;
+	final CardRepository cardRepo;  // 카드 삭제를 위해 CardRepository 주입
 
 	@Override
 	public void insert(PaymentDTO dto) {
@@ -119,9 +121,23 @@ public class PaymentServiceImpl implements PaymentService {
 		return payments;
 	}
 
-	@Override
-	public void delete(Long paymentId) {
-		paymentRepo.deleteById(paymentId);
-	}
+	  @Override
+	    public void delete(Long paymentId) {
+	        paymentRepo.deleteById(paymentId);
+	    }
+
+	    @Override
+	    @Transactional
+	    public void deletePaymentsByCardId(Long cardId) {
+	        paymentRepo.deleteByCardId(cardId);
+	    }
+
+	    @Override
+	    @Transactional
+	    public void deleteCardAndPayments(Long cardId) {
+	        deletePaymentsByCardId(cardId);
+	        cardRepo.deleteById(cardId);
+	    }
+	
 
 }

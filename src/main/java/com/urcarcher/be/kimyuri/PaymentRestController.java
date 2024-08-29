@@ -47,6 +47,16 @@ public class PaymentRestController {
 		return "삭제작업";
 	}
 	
+	@DeleteMapping("/delete/{cardId}")
+	public ResponseEntity<String> deleteCardAndPayments(@PathVariable("cardId") Long cardId) {
+	    try {
+	        paymentService.deleteCardAndPayments(cardId);
+	        return ResponseEntity.ok("카드와 관련된 모든 결제 내역이 성공적으로 삭제되었습니다.");
+	    } catch (Exception e) {
+	        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("카드 및 결제 내역 삭제에 실패했습니다.");
+	    }
+	}
+	
 	// 카드관리 - 즉시결제
 	@PostMapping("/immediatepayment")
 	Boolean immediatePayment(@RequestBody Map<String, String> requestBody) {

@@ -25,6 +25,12 @@ public interface PaymentService {
 	 // 새로운 메서드 추가
     List<PaymentDTO> findPaymentsByMemberId(String memberId);
     
+    // 카드 ID로 결제 내역 삭제
+    void deletePaymentsByCardId(Long cardId); 
+
+    // 카드와 연관된 결제 내역 삭제 후 카드 삭제
+    void deleteCardAndPayments(Long cardId); 
+    
 	// Entity -> DTO
 	default PaymentDTO entityToDTO(PaymentEntity entity) {
 		PaymentDTO dto = PaymentDTO.builder()

@@ -36,5 +36,10 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
     
  	// 특정 카드 ID로 모든 결제 내역 가져오기
     List<PaymentEntity> findAllByCardCardId(Long cardId);
+    
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM PaymentEntity p WHERE p.card.cardId = :cardId")
+    void deleteByCardId(@Param("cardId") Long cardId);
 
 }
