@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.urcarcher.be.blkwntr.entity.Member;
 import com.urcarcher.be.kimyuri.CardEntity;
 import com.urcarcher.be.swimming.entity.ExchangeInfoEntity;
+import com.urcarcher.be.swimming.entity.ExchangeSetEntity;
 
 import jakarta.transaction.Transactional;
 
@@ -53,4 +54,9 @@ public interface ExchangeRepository extends JpaRepository<ExchangeInfoEntity, Lo
 			+ " LEFT JOIN ExchangeSetEntity s on (e.exchangeSet = s)"
 			+ " WHERE e.exId = ?1")
 	ExchangeInfoEntity findByInfoDetail(Long exId);
+	
+	// 환전 내역 중복 확인
+	@Query("SELECT COUNT(e) > 0 FROM ExchangeInfoEntity e"
+			+ " WHERE e.exchangeSet = ?1")
+	boolean checkByExInfo(ExchangeSetEntity set);
 }
