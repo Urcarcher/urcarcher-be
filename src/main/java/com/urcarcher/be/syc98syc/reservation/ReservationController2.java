@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +43,16 @@ public class ReservationController2 {
 		return "예약성공";
 	}
 	
+	@GetMapping("/myReservation1/{memberId}")
+	List<ReservationDTO> getMyReservation1(@PathVariable("memberId") String memberId){
+		return rService.readMyReservation1(memberId);
+	}
+	
+	@PutMapping("/delete")
+	String delete(@RequestBody ReservationDTO dto) {
+		rService.delete(dto);
+		return "예약취소";
+	}
 
 
 }

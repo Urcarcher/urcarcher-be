@@ -1,5 +1,9 @@
 package com.urcarcher.be.syc98syc.reservation.service;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +27,23 @@ public class ReservationServiceImpl implements ReservationService{
 		Member member = mRepo.findById(dto.getMemberId()).orElseThrow(() -> new RuntimeException("Member not found"));
 		ReservationEntity entity = dtoToEntity(dto, member);
 		rRepo.save(entity);
+	}
+
+	@Override
+	public List<ReservationDTO> readMyReservation1(String memberId) {
+		List<ReservationEntity> entityList = (List<ReservationEntity>) rRepo.findList1ByMemberId(memberId, 1);
+		
+		List<ReservationDTO> dtoList = entityList.stream().map(entity->entityToDTO(entity))
+				.collect(Collectors.toList());
+		return dtoList;
+	}
+
+	@Override
+	public void delete(ReservationDTO dto) {
+		rRepo.findById(dto.getReservationId()).ifPresent(reservation -> {
+			reservation.setState(0);
+			rRepo.save(reservation);
+		});
 	}
 
 }
