@@ -1,6 +1,7 @@
 package com.urcarcher.be.syc98syc.entity;
 
 import java.sql.Date;
+import java.time.LocalTime;
 
 import com.urcarcher.be.blkwntr.entity.Member;
 
@@ -34,6 +35,9 @@ public class ReservationEntity {
 	
 	@Column(length = 100)
 	private Date reservationDate;
+	
+	@Column
+	private LocalTime reservationTime; // LocalTime추가
 	
 	@Column(length = 2)
 	private Integer state;
