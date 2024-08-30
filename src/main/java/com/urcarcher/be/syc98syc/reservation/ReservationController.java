@@ -30,10 +30,10 @@ public class ReservationController {
 
     @GetMapping("/reservation-info")
     public String getTourDetail(
-            @RequestParam(value = "stdate", defaultValue = "20240901") String stdate,
-            @RequestParam(value = "eddate", defaultValue = "20240902") String eddate,
+            @RequestParam(value = "stdate", defaultValue = "20240801") String stdate,
+            @RequestParam(value = "eddate", defaultValue = "20240930") String eddate,
             @RequestParam(value = "cpage", defaultValue = "1") String cpage,
-            @RequestParam(value = "rows", defaultValue = "10") String rows,
+            @RequestParam(value = "rows", defaultValue = "40") String rows,
            // @RequestParam(value = "shcate", defaultValue = "AAAA") String shcate,
            // @RequestParam(value = "shprfnm", defaultValue = "사랑") String shprfnm,
            // @RequestParam(value = "shprfnmfct", defaultValue = "예술의전당") String shprfnmfct,
