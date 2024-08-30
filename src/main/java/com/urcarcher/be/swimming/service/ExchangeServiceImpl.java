@@ -109,8 +109,6 @@ public class ExchangeServiceImpl implements ExchangeService {
 	// 예약 환전
 	@Override
 	public void setInsert(ExchangeSetDTO setDto, String memberId) {
-		// 예약 환전 시 설정한 예약일에 자동으로 환전 내역 insert, 카드 잔액 update
-		// 동시성 처리를 위해 DB 이벤트 스케줄러를 이용하여 트리거 생성함
 		setRepo.save(setDtoToEntity(setDto));
 	}
 
@@ -150,8 +148,12 @@ public class ExchangeServiceImpl implements ExchangeService {
 	@Transactional
 	public void runExchange() {
 		// 오늘 날짜와 같은 예약일 리스트
-		LocalDate today = LocalDate.now();
-		List<ExchangeSetEntity> setList = setRepo.findDateSet(today);
+		// LocalDate today = LocalDate.now();
+		// List<ExchangeSetEntity> setList = setRepo.findDateSet(today);
+		
+		// 테스트용 날짜 지정
+		LocalDate testDate = LocalDate.of(2024, 8, 31);
+		List<ExchangeSetEntity> setList = setRepo.findDateSet(testDate);
 		
 		// 실시간 환율 조회
 		exchangeList = rateService.getAllRateInfo();
@@ -176,7 +178,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		        
 		        // 환율 우대 90% 적용된 예상 원화 계산
 		        // 매매기준율 + (현찰 살 때 - 매매기준율) * (1 - 환율 우대율)
-		        Double calculatAmt = rate + (buy - rate) * (1 - 0.9);
+		        Double calculatAmt = rate + (buy - rate) * (1 - 0.9); // 소수점 처리 전
 		        System.out.println("** 계산된 원화 : " + calculatAmt);
 		        
 		        ExchangeInfoEntity info = new ExchangeInfoEntity();
@@ -206,11 +208,11 @@ public class ExchangeServiceImpl implements ExchangeService {
 	        ExchangeSetEntity setEntity = setRepo.findById(setId).orElse(null);
 	        
 	        if (setEntity != null) {
-	        	setEntity.setSetStatus("Y");
+	        	setEntity.setSetStatus("Y"); // 상태값 N => Y
 	        	
+	        	// 환전 금액 만큼 잔액 추가
 	            CardEntity card = setEntity.getCard();
 	            Double plusCur = card.getCardBalance() + setEntity.getSetCur().doubleValue();
-	            // card.setCardBalance(card.getCardBalance() + setEntity.getSetCur());
 	            
 	            // 바뀐 상태값 저장
 				exRepo.plusCurrency(card.getCardId(), plusCur);
