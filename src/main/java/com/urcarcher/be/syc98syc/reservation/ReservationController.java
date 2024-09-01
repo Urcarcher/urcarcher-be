@@ -4,6 +4,7 @@ package com.urcarcher.be.syc98syc.reservation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDate;
 
 @CrossOrigin
 @RestController
@@ -31,7 +34,7 @@ public class ReservationController {
     @GetMapping("/reservation-info")
     public String getTourDetail(
             @RequestParam(value = "stdate", defaultValue = "20240801") String stdate,
-            @RequestParam(value = "eddate", defaultValue = "20240930") String eddate,
+            @RequestParam(value = "eddate", defaultValue = "20240901") String eddate,
             @RequestParam(value = "cpage", defaultValue = "1") String cpage,
             @RequestParam(value = "rows", defaultValue = "40") String rows,
            // @RequestParam(value = "shcate", defaultValue = "AAAA") String shcate,
@@ -63,6 +66,7 @@ public class ReservationController {
 //                  .append("&prfstate=").append(prfstate)
 //                  .append("&openrun=").append(openrun)
 //                  .append("&newsql=").append(newsql);
+        
 
         try {
             URI uri = new URI(urlBuilder.toString());
@@ -116,4 +120,29 @@ public class ReservationController {
             return "Error fetching tour information: " + e.getMessage();
         }
     }
+    
+    public class DateUtil {
+
+        private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd");
+
+        public static String getFirstDayOfCurrentMonth() {
+            return LocalDate.now().withDayOfMonth(1).format(FORMATTER);
+        }
+
+        public static String getLastDayOfNextMonth() {
+            return LocalDate.now().plusMonths(1).withDayOfMonth(1).plusMonths(1).minusDays(1).format(FORMATTER);
+        }
+        
+        @ModelAttribute("defaultStDate")
+        public String defaultStDate() {
+        	System.out.println(getFirstDayOfCurrentMonth());
+            return getFirstDayOfCurrentMonth();
+        }
+
+        @ModelAttribute("defaultEdDate")
+        public String defaultEdDate() {
+            return getLastDayOfNextMonth();
+        }
+    }
 }
+
