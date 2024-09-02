@@ -29,7 +29,7 @@ public class SecurityConfig {
 	
 	private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 	
-	private static final String[] WHITE_LIST = {"/**"};
+	private static final String[] BLACK_LIST = {"/api/paymentPlace/**, /api/exchange/**, /api/reserve/**"};
 	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -52,8 +52,8 @@ public class SecurityConfig {
 				)
 				.authorizeHttpRequests(authConfig->{
 					authConfig
-						.requestMatchers(WHITE_LIST).permitAll()
-						.anyRequest().authenticated();
+						.requestMatchers(BLACK_LIST).authenticated()
+						.anyRequest().permitAll();
 				})
 				.oauth2Login(oauth2Config -> {
 					oauth2Config
