@@ -48,6 +48,11 @@ public class ReservationController2 {
 		return rService.readMyReservation1(memberId);
 	}
 	
+	@GetMapping("/myReservation1/detail/{reservationId}")
+	ReservationDTO getMyReservation1Detail(@PathVariable("reservationId") String reservationId){
+		return rService.readMyReservation1Detail(reservationId);
+	}
+	
 	@PutMapping("/delete")
 	String delete(@RequestBody ReservationDTO dto) {
 		rService.delete(dto);

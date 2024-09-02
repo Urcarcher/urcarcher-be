@@ -14,6 +14,8 @@ public interface ReservationService {
 	
 	List<ReservationDTO> readMyReservation1(String memberId);
 	
+	ReservationDTO readMyReservation1Detail(String reservationId);
+	
 	void delete(ReservationDTO dto);
 	
 	// Entity -> DTO

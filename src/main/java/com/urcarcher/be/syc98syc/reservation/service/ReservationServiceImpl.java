@@ -2,6 +2,7 @@ package com.urcarcher.be.syc98syc.reservation.service;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,12 +32,13 @@ public class ReservationServiceImpl implements ReservationService{
 
 	@Override
 	public List<ReservationDTO> readMyReservation1(String memberId) {
-		List<ReservationEntity> entityList = (List<ReservationEntity>) rRepo.findList1ByMemberId(memberId, 1);
+		List<ReservationEntity> entityList = (List<ReservationEntity>) rRepo.findList1ByMemberId(memberId);
 		
 		List<ReservationDTO> dtoList = entityList.stream().map(entity->entityToDTO(entity))
 				.collect(Collectors.toList());
 		return dtoList;
 	}
+	
 
 	@Override
 	public void delete(ReservationDTO dto) {
@@ -44,6 +46,12 @@ public class ReservationServiceImpl implements ReservationService{
 			reservation.setState(0);
 			rRepo.save(reservation);
 		});
+	}
+
+	@Override
+	public ReservationDTO readMyReservation1Detail(String reservationId) {
+		Optional<ReservationEntity> entityOptional = rRepo.findById(Integer.parseInt(reservationId));
+		return entityOptional.map(entity-> entityToDTO(entity)).orElse(null);
 	}
 
 }
