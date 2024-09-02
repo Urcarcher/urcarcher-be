@@ -152,7 +152,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		// List<ExchangeSetEntity> setList = setRepo.findDateSet(today);
 		
 		// 테스트용 날짜 지정
-		LocalDate testDate = LocalDate.of(2024, 8, 31);
+		LocalDate testDate = LocalDate.of(2024, 9, 13);
 		List<ExchangeSetEntity> setList = setRepo.findDateSet(testDate);
 		
 		// 실시간 환율 조회
@@ -180,6 +180,9 @@ public class ExchangeServiceImpl implements ExchangeService {
 		        // 매매기준율 + (현찰 살 때 - 매매기준율) * (1 - 환율 우대율)
 		        Double calculatAmt = rate + (buy - rate) * (1 - 0.9); // 소수점 처리 전
 		        System.out.println("** 계산된 원화 : " + calculatAmt);
+		        
+		        // 반올림 하지 않고 소수점 두번째 자리까지 버리기
+		        calculatAmt = Double.valueOf(String.format("%.2f", calculatAmt));
 		        
 		        ExchangeInfoEntity info = new ExchangeInfoEntity();
 		        boolean check = exRepo.checkByExInfo(set); // 중복 여부 확인
