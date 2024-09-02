@@ -38,17 +38,19 @@ public class PaymentPlaceRestController {
 	//특정 회원의 한 달간 결제 내역 중 상위 3개 카테고리
 	@GetMapping("/top-categories")
     public ResponseEntity<List<StoreCategoryDTO>> getTopCategories(@RequestParam("memberId") String memberId) {
-	    System.out.println("memberId:"+ memberId);
+	    
+		System.out.println("memberId:"+ memberId);
 	    
 	    List<StoreCategoryDTO> categories = storeService.findTopCategoriesByMemberId(memberId);
+	    
+	    System.out.println("categories"+ categories);
+	    
         return ResponseEntity.ok(categories);  // JSON 형태로 반환됨
     }
 	
    @GetMapping("/best-store")
-    public List<StoreWithCountDTO> getMostUsedStoresExcludingMember(@RequestParam("memberId") String memberId) { 
+    public List<StoreWithCountDTO> getMostUsedStoresExcludingMember() { 
 	   
-	   System.out.println("memberId:"+ memberId);
-	   	
-        return storeService.getMostUsedStoresExcludingMember(memberId);
+        return storeService.getMostUsedStoresExcludingMember();
     }
 }

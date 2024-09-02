@@ -28,18 +28,18 @@ public class StoreService {
 	public StoreService(StoreRepository storeRepository) {
         this.storeRepository = storeRepository;
     }
-	 
 	
-    public List<StoreWithCountDTO> getMostUsedStoresExcludingMember(String memberId) {
+	
+   public List<StoreWithCountDTO> getMostUsedStoresExcludingMember() {
     	
-        List<Object[]> results = storeRepository.findMostUsedStoresExcludingMember(memberId);
-
+        List<Object[]> results = storeRepository.findMostUsedStoresExcludingMember();
+     
+        
         return results.stream()
             .map(this::convertToStoreWithCountDTO) //DTO로 변환
             .collect(Collectors.toList());
     }
-	 
-	 
+	
 	//상위 3개 카테고리 정보 DTO로 변환
 	 public List<StoreCategoryDTO> findTopCategoriesByMemberId(String memberId) {
         List<Object[]> results = storeRepository.findTopCategoriesByMemberId(memberId);
