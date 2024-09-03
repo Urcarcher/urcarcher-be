@@ -7,6 +7,14 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.urcarcher.be.blkwntr.repository.MemberRepository;
+import com.urcarcher.be.blkwntr.repository.PointMapping;
+
+
+
+
+
+
 
 @Service
 public class HomeService{
@@ -14,10 +22,13 @@ public class HomeService{
 	@Autowired
     HomeRepository homeRepository;
 	
+	@Autowired
+	MemberRepository memberRepository;
+	
 	//이번 달 총 금액
 	  public HomeCardDTO getCardDetailsWithTotalPayment(String memberId) {
 		  Optional<Map<String, Object>> result =  homeRepository.findCardDetailsWithTotalPayment(memberId);
-		 
+		  
 		  Map<String, Object> map = result.orElse(null);
 		  //System.out.println("=============@Service==========");
 		 
@@ -41,6 +52,11 @@ public class HomeService{
 	       }
 	       return card;
 	    }
+	  
+	  public Integer getMemberPoint(String memberId) {
+		Optional<PointMapping> x = memberRepository.findPointByMemberId(memberId);
+		return x.isPresent() ? x.get().getPoint() : 0;
+	  }
 	
 	
 }

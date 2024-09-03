@@ -1,6 +1,7 @@
 package com.urcarcher.be.rani.VO;
 
 import java.math.BigDecimal;
+import java.sql.Date;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,4 +18,6 @@ public class CourseDTO {
 	String courseName;
 	String region;
 	String courseImg;
+	int viewCount;
+	int authCount;
 }

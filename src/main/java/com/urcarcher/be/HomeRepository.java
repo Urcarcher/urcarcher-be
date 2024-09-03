@@ -11,6 +11,8 @@ import com.urcarcher.be.kimyuri.CardEntity;
 
 
 public interface HomeRepository extends CrudRepository<CardEntity, Long>{ //홈 화면 카드 정보
+	
+	
 		
 	// 회원이 소유한 카드들 중 첫 번째 카드를 기준으로 해당 카드의 이번 달 사용 금액 조회
 	  @Query(value = "SELECT"

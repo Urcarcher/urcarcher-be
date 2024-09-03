@@ -20,6 +20,7 @@ public class PlaceDTO {
 	String placeId;
 	String placeName;
 	String address;
+	
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING)
     @JsonSerialize(using = BigDecimalSerializer.class) // Custom serializer to control precision

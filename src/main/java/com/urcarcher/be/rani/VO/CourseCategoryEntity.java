@@ -50,6 +50,8 @@ public class CourseCategoryEntity {
 	@Column (name="auth_count")
 	private Integer authCount; 
 	
+
+	
 	@OneToMany(mappedBy = "courseCategory")
     private List<TravelCourseEntity> travelCourses;
 	
