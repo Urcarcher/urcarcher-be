@@ -38,6 +38,8 @@ public interface CourseService {
 				.courseName(entity.getCourseName())
 				.region(entity.getRegion())
 				.courseImg(entity.getCourseImg())
+				.viewCount(entity.getViewCount())
+				.authCount(entity.getAuthCount())
 				.build();
 		return dto;
 	}

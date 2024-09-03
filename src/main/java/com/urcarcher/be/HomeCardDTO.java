@@ -23,6 +23,7 @@ public class HomeCardDTO {
     private Date expiration_date;
     private String name;
 
+    private Integer point;
     private Double totalPayment; //이번달 총 카드 사용 금액
     
     
