@@ -91,7 +91,9 @@ public interface StoreRepository extends JpaRepository<StoreEntity, String> {
             JOIN 
                 card c ON p.card_id = c.card_id
             WHERE 
-                s.store_id != 11111111 
+                s.store_id != 11111111   
+                AND YEAR(p.payment_date) = YEAR(CURDATE())  
+     			AND p.payment_date < CURDATE()   
             GROUP BY 
                 s.store_id, s.store_name, s.store_addr, s.store_road_addr, 
                 s.store_phone, s.store_url, s.store_x, s.store_y, 
