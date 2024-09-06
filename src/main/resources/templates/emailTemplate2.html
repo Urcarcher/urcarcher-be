@@ -58,11 +58,15 @@
 <body>
     <div class="email-container">
     	<img src='cid:image' alt="어카처" style="width: 25%; height: auto;"/>
-        <h1>인증 코드 안내</h1>
+        <h1>예약 안내</h1>
         <hr>
         <p>안녕하세요. 어카처 팀입니다.</p>
-        <p>인증코드 유효 시간은 30분입니다.</p>
-        <p class="code">[[${name}]]</p>
+        <p>예약 안내 메일입니다.</p>
+        <div>
+        <p>[[${memberName}]]님, </p>
+        <p>[[${reservationDate}]]일 [[${reservationTime}]]에 [[${name}]] [[${seat}]] [[${people_num}]]매 예약하셨습니다.</p>
+        <p>예약 장소는 [[${location}]]입니다.</p>
+        </div>
     </div>
 </body>
 </html>
