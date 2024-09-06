@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class MemberDTO {
 	private String memberId;
-	//private String dateOfBirth;
+	private String dateOfBirth;
 	private String registrationNumber;
 	private String email;
 	private String gender;
