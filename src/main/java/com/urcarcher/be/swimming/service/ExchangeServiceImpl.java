@@ -144,7 +144,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	}
 	
 	// 예약 환전 스케줄러
-	@Scheduled(fixedDelay = 1 * 60 * 1000) // 1분 간격으로 실행
+	@Scheduled(fixedDelay = 1 * 30 * 1000) // 1분 간격으로 실행
 	@Transactional
 	public void runExchange() {
 		// 오늘 날짜와 같은 예약일 리스트
@@ -152,7 +152,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		// List<ExchangeSetEntity> setList = setRepo.findDateSet(today);
 		
 		// 테스트용 날짜 지정
-		LocalDate testDate = LocalDate.of(2024, 9, 13);
+		LocalDate testDate = LocalDate.of(2024, 9, 7);
 		List<ExchangeSetEntity> setList = setRepo.findDateSet(testDate);
 		
 		// 실시간 환율 조회
