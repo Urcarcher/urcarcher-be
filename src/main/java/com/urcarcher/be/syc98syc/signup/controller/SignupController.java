@@ -75,13 +75,13 @@ public class SignupController {
 	    Cookie cookie = new Cookie("eCode", String.valueOf(eCode));
 	    cookie.setPath("/");
 	    cookie.setHttpOnly(true);
-	    cookie.setMaxAge(60 * 10); // 10분
+	    cookie.setMaxAge(60 * 30); // 30분
 	    response.addCookie(cookie);
 
 	    System.out.println(eCode);
 //	    mService.sendMail(email, "URCARCHER- 회원가입 인증번호 안내", "안녕하세요. 어카처팀입니다.", eCode);
 
-    	mService.sendEmail(email, "Welcome Email", eCode);
+    	mService.sendEmail(email, "어카처 회원가입 인증 코드 전송", eCode);
 	    System.out.println("메일 전송 완료");
 	    return ResponseEntity.ok("메일 전송 완료");
 	}
