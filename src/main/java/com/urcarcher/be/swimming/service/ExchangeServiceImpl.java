@@ -152,7 +152,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 		// List<ExchangeSetEntity> setList = setRepo.findDateSet(today);
 		
 		// 테스트용 날짜 지정
-		LocalDate testDate = LocalDate.of(2024, 9, 7);
+		LocalDate testDate = LocalDate.of(2024, 9, 13);
 		List<ExchangeSetEntity> setList = setRepo.findDateSet(testDate);
 		
 		// 실시간 환율 조회
