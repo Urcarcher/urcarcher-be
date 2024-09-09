@@ -74,7 +74,7 @@ public class AuthorizingController {
 				SimpleUserInfo.builder()
 				.isAuthorized(jwtTokenProvider.validateToken(CookieUtils.getCookie(request, "URCARCHER_ACCESS_TOKEN").orElseThrow().getValue()))
 				.name(vanillaAuthorizingService.getMemberByAuth(userDetails).getName())
-				.memberId(userDetails.getUsername())
+				.memberId(userDetails != null ? userDetails.getUsername() : null)
 				.build());
 	}
 }
