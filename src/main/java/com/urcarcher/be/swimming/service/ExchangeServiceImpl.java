@@ -144,7 +144,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	}
 	
 	// 예약 환전 스케줄러
-	@Scheduled(fixedDelay = 1 * 30 * 1000) // 1분 간격으로 실행
+	@Scheduled(fixedDelay = 1 * 30 * 1000) // 30초 간격으로 실행
 	@Transactional
 	public void runExchange() {
 		// 오늘 날짜와 같은 예약일 리스트
@@ -227,7 +227,7 @@ public class ExchangeServiceImpl implements ExchangeService {
 	        }
 	    }
 		
-		System.out.println("============================== 1분 간격으로 스케줄러 실행 ==============================");
+		System.out.println("============================== 30초 간격으로 스케줄러 실행 ==============================");
 		System.out.println("** 오늘 날짜와 같은 예약일 리스트 : " + setList);
 		// System.out.println("** 유저 국적 리스트 : " + nationList);
 		// System.out.println("** 실시간 환율 정보 : " + exchangeList);
