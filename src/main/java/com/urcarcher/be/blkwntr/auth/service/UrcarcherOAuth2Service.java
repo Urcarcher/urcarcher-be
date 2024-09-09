@@ -59,6 +59,7 @@ public class UrcarcherOAuth2Service extends DefaultOAuth2UserService {
 		oauthNewMember.setNationality(oAuthNewRequestDTO.getNationality());
 		oauthNewMember.setPhoneNumber(oAuthNewRequestDTO.getPhoneNumber());
 		oauthNewMember.setRegistrationNumber(oAuthNewRequestDTO.getRegistrationNumber());
+		oauthNewMember.setDateOfBirth(oAuthNewRequestDTO.getDateOfBirth());
 		oauthNewMember.setRole(MemberRole.USER);
 		return memberRepository.save(oauthNewMember);
 	}

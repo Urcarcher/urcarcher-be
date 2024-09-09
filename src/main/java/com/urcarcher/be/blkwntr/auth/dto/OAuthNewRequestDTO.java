@@ -13,4 +13,5 @@ public class OAuthNewRequestDTO {
 	private String locationConsent;
 	private String matchingConsent;
 	private String provider;
+	private String dateOfBirth;
 }
